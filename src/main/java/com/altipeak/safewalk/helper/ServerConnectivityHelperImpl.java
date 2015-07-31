@@ -1,0 +1,127 @@
+package com.altipeak.safewalk.helper;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
+
+    private static final int DEFAULT_TIMEOUT = 30;
+    
+    private final String host;
+    private final long port;
+    
+    public ServerConnectivityHelperImpl(final String host, final long port) {
+        this.host = host;
+        this.port = port;
+    }
+    
+    // ************************************
+    // * Public Methods
+    // ************************************
+    
+    public Response post(String path, Map<String, String> parameters, Map<String, String> headers) throws ConnectivityException  {
+        
+        /* Accept self-signed certificates */
+        SSLContext ctx;
+        try {
+            ctx = SSLContext.getInstance("TLS");
+            ctx.init(null, new TrustManager[] {
+                    new X509TrustManager() {
+                      public void checkClientTrusted(X509Certificate[] chain, String authType) {}
+                      public void checkServerTrusted(X509Certificate[] chain, String authType) {}
+                      public X509Certificate[] getAcceptedIssuers() { return new X509Certificate[]{}; }
+                    }
+                  }, null);
+              HttpsURLConnection.setDefaultSSLSocketFactory(ctx.getSocketFactory());   
+              
+              /* the name on the certificate doesn't match the hostname */
+              HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                  public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                  }          
+              });
+              
+              HttpURLConnection connection = null;
+              String url = String.format("%s:%s%s", host, port, path);
+              URL serverAddress = new URL(url);
+              connection = (HttpURLConnection)serverAddress.openConnection();
+              if (headers != null) {
+                  for (Entry<String, String> entry : headers.entrySet()) {
+                      connection.setRequestProperty(entry.getKey(), entry.getValue());
+                  }
+              }
+              connection.setRequestMethod("POST");
+              connection.setDoOutput(true);
+              connection.getOutputStream().write(this.urlEncode(parameters).getBytes());
+              connection.setConnectTimeout(DEFAULT_TIMEOUT);
+              connection.connect();
+              
+              int responseCode = this.getResponseCode(connection);
+              
+              final BufferedReader rd;
+              if (responseCode == HttpURLConnection.HTTP_OK)  {
+                  rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+              }else{
+                  rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+              }
+              
+              StringBuilder sb = new StringBuilder();
+              String line = null;
+              while ((line = rd.readLine()) != null){                
+                  sb.append(line).append('\n');
+              }
+              return new Response(sb.toString(), responseCode);
+                  
+        } catch (IOException e) {
+            throw new ConnectivityException(e);
+        } catch (KeyManagementException e) {
+            throw new ConnectivityException(e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new ConnectivityException(e);
+        }
+    }
+    
+    // ************************************
+    // * Private Methods
+    // ************************************
+    
+    private int getResponseCode(final HttpURLConnection connection) throws IOException {
+        int responseCode = 0;
+        try {
+            responseCode = connection.getResponseCode();
+        }catch(IOException e){
+            responseCode = connection.getResponseCode();
+        }
+        return responseCode;
+    }
+    
+    private String urlEncode(Map<String, String> query) throws UnsupportedEncodingException {
+        StringBuilder builder = new StringBuilder();
+        for (Entry<String, String> entry : query.entrySet()) {
+            builder.append(entry.getKey());
+            builder.append("=");
+            builder.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+            builder.append("&");
+        }
+        return builder.toString();
+    }
+    
+    
+}
