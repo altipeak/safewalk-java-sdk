@@ -1,8 +1,9 @@
 package com.altipeak.safewalk;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class AuthenticationResponse {
 
@@ -14,9 +15,9 @@ public class AuthenticationResponse {
     private final int httpCode;
     private final String detail;
     
-    private Map<String, List<String>> errors;
+    private final Map<String, List<String>> errors;
     
-    private String SEPARATOR = " | ";
+    private static final String SEPARATOR = " | ";
 
     public enum AuthenticationCode {
         ACCESS_ALLOWED,
@@ -24,11 +25,11 @@ public class AuthenticationResponse {
         ACCESS_DENIED;
     }
     
-    public AuthenticationResponse(AuthenticationCode code
+    public AuthenticationResponse(int httpCode
+                                , AuthenticationCode code
                                 , String transactionId
                                 , String username
                                 , String replyMessage
-                                , int httpCode
                                 , String detail) {
         this.code = code;
         this.transactionId = transactionId;
@@ -36,6 +37,17 @@ public class AuthenticationResponse {
         this.replyMessage = replyMessage;
         this.httpCode = httpCode;
         this.detail = detail;
+        this.errors = Collections.emptyMap();
+    }
+    
+    public AuthenticationResponse(int httpCode, Map<String, List<String>> errors){
+        this.code = null;
+        this.transactionId = null;
+        this.username = null;
+        this.replyMessage = null;
+        this.httpCode = httpCode;
+        this.detail = null;
+        this.errors = errors;
     }
     
     // ************************************
@@ -51,15 +63,20 @@ public class AuthenticationResponse {
         if ( this.username != null ) sb.append(this.username).append(SEPARATOR);
         if ( this.replyMessage != null ) sb.append(this.replyMessage).append(SEPARATOR);
         if ( this.detail != null ) sb.append(this.detail).append(SEPARATOR);
-        return sb.substring(0, sb.length() - SEPARATOR.length()).toString();
+        
+        for (Entry<String, List<String>> errors : this.errors.entrySet()) {
+            sb.append(errors.getKey()).append(" [");
+            for (String error : errors.getValue()) {
+                sb.append(error).append(", ");
+            }
+            sb.append("]").append(SEPARATOR);
+        }
+        
+        return sb.toString();
     }
 
     public Map<String, List<String>> getErrors() {
         return errors;
-    }
-
-    public void setErrors(Map<String, List<String>> errors) {
-        this.errors = errors;
     }
 
     public AuthenticationCode getCode() {

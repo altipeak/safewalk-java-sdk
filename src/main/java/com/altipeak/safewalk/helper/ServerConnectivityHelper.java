@@ -5,8 +5,11 @@ import java.util.Map;
 
 public interface ServerConnectivityHelper {
     
-    Response post(String url, Map<String, String> parameters, Map<String, String> headers) throws ConnectivityException;
- 
+    Response post(String path, Map<String, String> parameters, Map<String, String> headers) throws ConnectivityException;
+    Response put(String path, Map<String, String> parameters, Map<String, String> headers) throws ConnectivityException;
+    Response get(String path, Map<String, String> parameters, Map<String, String> headers) throws ConnectivityException;
+    Response delete(String path, Map<String, String> parameters, Map<String, String> headers) throws ConnectivityException;
+    
     public class ConnectivityException extends Exception {
         private static final long serialVersionUID = 1L;
         

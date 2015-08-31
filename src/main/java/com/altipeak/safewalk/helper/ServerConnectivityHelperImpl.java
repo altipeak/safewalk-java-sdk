@@ -36,7 +36,27 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
     // * Public Methods
     // ************************************
     
-    public Response post(String path, Map<String, String> parameters, Map<String, String> headers) throws ConnectivityException  {
+    public Response post(String path, Map<String, String> parameters, Map<String, String> headers) throws ConnectivityException {
+        return doRequest("POST", path, parameters, headers);
+    }
+
+    public Response put(String path, Map<String, String> parameters, Map<String, String> headers) throws ConnectivityException {
+        return doRequest("PUT", path, parameters, headers);
+    }
+    
+    public Response get(String path, Map<String, String> parameters, Map<String, String> headers) throws ConnectivityException {
+        return doRequest("GET", path, parameters, headers);
+    }
+    
+    public Response delete(String path, Map<String, String> parameters, Map<String, String> headers) throws ConnectivityException {
+        return doRequest("DELETE", path, parameters, headers);
+    }
+    // ************************************
+    // * Private Methods
+    // ************************************
+    
+    
+    private Response doRequest(String method, String path, Map<String, String> parameters, Map<String, String> headers) throws ConnectivityException  {
         
         /* Accept self-signed certificates */
         SSLContext ctx;
@@ -59,24 +79,30 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
               });
               
               HttpURLConnection connection = null;
-              String url = String.format("%s:%s%s", host, port, path);
+              String url = (method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT")) ? 
+                      String.format("%s:%s%s", host, port, path):
+                          String.format("%s:%s%s?%s", host, port, path, this.urlEncode(parameters));
               URL serverAddress = new URL(url);
               connection = (HttpURLConnection)serverAddress.openConnection();
+              connection.setRequestProperty("Content-Type", 
+                      "application/x-www-form-urlencoded");
               if (headers != null) {
                   for (Entry<String, String> entry : headers.entrySet()) {
                       connection.setRequestProperty(entry.getKey(), entry.getValue());
                   }
               }
-              connection.setRequestMethod("POST");
-              connection.setDoOutput(true);
-              connection.getOutputStream().write(this.urlEncode(parameters).getBytes());
+              connection.setRequestMethod(method);
               connection.setConnectTimeout(DEFAULT_TIMEOUT);
-              connection.connect();
+              if ( method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT") ) {
+                  connection.setDoOutput(true);
+                  connection.getOutputStream().write(this.urlEncode(parameters).getBytes());
+                  connection.connect();
+              }
               
               int responseCode = this.getResponseCode(connection);
               
               final BufferedReader rd;
-              if (responseCode == HttpURLConnection.HTTP_OK)  {
+              if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED || responseCode == HttpURLConnection.HTTP_NO_CONTENT)  {
                   rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
               }else{
                   rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
@@ -98,10 +124,6 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
         }
     }
     
-    // ************************************
-    // * Private Methods
-    // ************************************
-    
     private int getResponseCode(final HttpURLConnection connection) throws IOException {
         int responseCode = 0;
         try {
@@ -122,6 +144,5 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
         }
         return builder.toString();
     }
-    
     
 }
