@@ -9,17 +9,34 @@
 ```java
 String host = "https://192.168.1.160";
 long  port = 8443;
-String accessToken = "1453ce44c4ac3e7a6576e717d903aa8109bd2a8a";
+private static final String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
+private static final String ADMIN_API_ACCESS_TOKEN = "1237d30e0f29e6e59bb5a27cce1373722c72c749";
 
-ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(host, port);
-SafewalkClient client = new SafewalkClientImpl(serverConnectivityHelper);
-AuthenticationResponse response = client.authenticate(accessToken, "admin", "admin");
+SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper);
+CreateUserResponse response2 = client.createUser(ADMIN_API_ACCESS_TOKEN, "testuser@local.com", "12345", "Test", "User", "+5491222546985", "test@email.com", "");
+//
+AuthenticationResponse response1 = client.authenticate(AUTHENTICATION_API_ACCESS_TOKEN, "testuser@local.com", "12345");
+//
+UpdateUserResponse response3 = client.updateUser(ADMIN_API_ACCESS_TOKEN, "testuser@local.com", "+549122254116985", "test111@email.com");
+//
+GetUserResponse response4 = client.getUser(ADMIN_API_ACCESS_TOKEN, "testuser@local.com");
+//
+SetStaticPasswordResponse response5 = client.setStaticPassword(ADMIN_API_ACCESS_TOKEN, "testuser@local.com", "abcde");
+//
+AssociateTokenResponse response6 = client.associateToken(ADMIN_API_ACCESS_TOKEN, "testuser@local.com", DeviceType.SESAMI_MOBILE, false, false);
+//
+GetTokenAssociationsResponse response7 = client.getTokenAssociations(ADMIN_API_ACCESS_TOKEN, "testuser@local.com");
+//
+DeleteTokenAssociation response8 = client.deleteTokenAssociation(ADMIN_API_ACCESS_TOKEN, "testuser@local.com", DeviceType.getEnum(response7.getAssociations().get(0).getDeviceType()), response7.getAssociations().get(0).getSerialNumber());
+//
+DeleteUserResponse response9 = client.deleteUser(ADMIN_API_ACCESS_TOKEN, "testuser@local.com");
 ```
 * host : The server host
 * port : The server port
-* accessToken : The access token of the system user created to access this api in the superadmin console 
+* AUTHENTICATION_API_ACCESS_TOKEN : The access token of the system user created to access the authentication-api
+* ADMIN_API_ACCESS_TOKEN : The access token of the system user created to access the admin-api 
 
-### Response Examples (AuthenticationResponse class)
+### Authentication Response Examples (AuthenticationResponse class)
 
 The response below show the result of providing valid credentials
 ```
