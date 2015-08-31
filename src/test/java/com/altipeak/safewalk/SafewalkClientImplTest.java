@@ -35,11 +35,11 @@ public class SafewalkClientImplTest  extends TestCase
 
     public void testSafewalkClient() throws ConnectivityException {
         SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper);
-        AuthenticationResponse response1 = client.authenticate(AUTHENTICATION_API_ACCESS_TOKEN, "admin", "admin");
-        System.out.println("AUTHENTICATION RESPONSE : " + response1);
-        //
         CreateUserResponse response2 = client.createUser(ADMIN_API_ACCESS_TOKEN, "testuser", "12345", "Test", "User", "+5491222546985", "test@email.com", "");
         System.out.println("CREATE USER RESPONSE : " + response2);
+        //
+        AuthenticationResponse response1 = client.authenticate(AUTHENTICATION_API_ACCESS_TOKEN, "testuser", "12345");
+        System.out.println("AUTHENTICATION RESPONSE : " + response1);
         //
         UpdateUserResponse response3 = client.updateUser(ADMIN_API_ACCESS_TOKEN, "testuser", "+549122254116985", "test111@email.com");
         System.out.println("UPDATE USER RESPONSE : " + response3);
