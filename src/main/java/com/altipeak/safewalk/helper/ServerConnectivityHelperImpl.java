@@ -22,7 +22,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
 
-    private static final int DEFAULT_TIMEOUT = 30;
+    private static final int DEFAULT_TIMEOUT = 30000;
     
     private final String host;
     private final long port;
@@ -93,6 +93,7 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
               }
               connection.setRequestMethod(method);
               connection.setConnectTimeout(DEFAULT_TIMEOUT);
+              connection.setReadTimeout(DEFAULT_TIMEOUT);
               if ( method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT") ) {
                   connection.setDoOutput(true);
                   connection.getOutputStream().write(this.urlEncode(parameters).getBytes());
@@ -116,6 +117,7 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
               return new Response(sb.toString(), responseCode);
                   
         } catch (IOException e) {
+            e.printStackTrace();
             throw new ConnectivityException(e);
         } catch (KeyManagementException e) {
             throw new ConnectivityException(e);
