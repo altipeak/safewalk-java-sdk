@@ -27,7 +27,7 @@ public class SafewalkClientImpl implements SafewalkClient
     /* Authentication response */
     private static final String JSON_AUTH_REPLY_MESSAGE_FIELD = "reply-message";
     private static final String JSON_AUTH_CODE_FIELD = "code";
-    private static final String JSON_AUTH_TRANSACTION_FIELD = "transaction_id";
+    private static final String JSON_AUTH_TRANSACTION_FIELD = "transaction-id";
     private static final String JSON_AUTH_USERNAME_ID_FIELD = "username";
     private static final String JSON_AUTH_DETAIL_FIELD = "detail";
     /* Create user response */
