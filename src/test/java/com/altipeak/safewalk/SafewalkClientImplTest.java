@@ -10,10 +10,10 @@ import junit.framework.TestSuite;
 
 public class SafewalkClientImplTest  extends TestCase
 {
-    private static final String HOST = "https://safewalk-integration.no-ip.org";
+    private static final String HOST = "https://192.168.1.160";
     private static final long  PORT = 8443;
-    private static final String AUTHENTICATION_API_ACCESS_TOKEN = "e488913954d95d66114ae680ed7492b3b213f9ac";
-    private static final String ADMIN_API_ACCESS_TOKEN = "1237d30e0f29e6e59bb5a27cce1373722c72c749";
+    private static final String AUTHENTICATION_API_ACCESS_TOKEN = "429d278986d80cbf821cdc84d213801b7638cb83";
+    private static final String ADMIN_API_ACCESS_TOKEN = "80f294bfbd0b7bd92ad66c64877484192c334b95";
     private static final String INTERNAL_USERNAME = "testinternaluser";
     private static final String LDAP_USERNAME = "testldapuser@local.com";
     
@@ -47,13 +47,13 @@ public class SafewalkClientImplTest  extends TestCase
     private void testSafewalkClient(String username) throws ConnectivityException {
         System.out.println("\nBEGIN TEST");
         SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper);
-        CreateUserResponse response2 = client.createUser(ADMIN_API_ACCESS_TOKEN, username, "12345", "Test", "User", "+5491222546985", "test@email.com", "");
+        CreateUserResponse response2 = client.createUser(ADMIN_API_ACCESS_TOKEN, username, "12345", "Test", "User", "+5491222546985", "s12313@gmail.com", "");
         System.out.println("CREATE USER RESPONSE : " + response2);
         //
         AuthenticationResponse response1 = client.authenticate(AUTHENTICATION_API_ACCESS_TOKEN, username, "12345");
         System.out.println("AUTHENTICATION RESPONSE : " + response1);
         //
-        UpdateUserResponse response3 = client.updateUser(ADMIN_API_ACCESS_TOKEN, username, "+549122254116985", "test111@email.com");
+        UpdateUserResponse response3 = client.updateUser(ADMIN_API_ACCESS_TOKEN, username, "+549122254116985", "s12313@gmail.com");
         System.out.println("UPDATE USER RESPONSE : " + response3);
         //
         GetUserResponse response4 = client.getUser(ADMIN_API_ACCESS_TOKEN, username);
@@ -65,14 +65,17 @@ public class SafewalkClientImplTest  extends TestCase
         AssociateTokenResponse response6 = client.associateToken(ADMIN_API_ACCESS_TOKEN, username, DeviceType.SESAMI_MOBILE, false, false);
         System.out.println("ASSOCIATE TOKEN RESPONSE : " + response6);
         //
-        GetTokenAssociationsResponse response7 = client.getTokenAssociations(ADMIN_API_ACCESS_TOKEN, username);
-        System.out.println("GET ASSOCIATIONS RESPONSE : " + response7);
+        CreateRegistrationCode response7 = client.createRegistrationCode(ADMIN_API_ACCESS_TOKEN, username);
+        System.out.println("CREATE REGISTRATION TOKEN RESPONSE : " + response7);
         //
-        DeleteTokenAssociation response8 = client.deleteTokenAssociation(ADMIN_API_ACCESS_TOKEN, username, DeviceType.getEnum(response7.getAssociations().get(0).getDeviceType()), response7.getAssociations().get(0).getSerialNumber());
-        System.out.println("DELETE ASSOCIATIONS RESPONSE : " + response8);
+        GetTokenAssociationsResponse response8 = client.getTokenAssociations(ADMIN_API_ACCESS_TOKEN, username);
+        System.out.println("GET ASSOCIATIONS RESPONSE : " + response8);
         //
-        DeleteUserResponse response9 = client.deleteUser(ADMIN_API_ACCESS_TOKEN, username);
-        System.out.println("DELETE USER RESPONSE : " + response9);
+        DeleteTokenAssociation response9 = client.deleteTokenAssociation(ADMIN_API_ACCESS_TOKEN, username, DeviceType.getEnum(response8.getAssociations().get(0).getDeviceType()), response8.getAssociations().get(0).getSerialNumber());
+        System.out.println("DELETE ASSOCIATIONS RESPONSE : " + response9);
+        //
+        DeleteUserResponse response10 = client.deleteUser(ADMIN_API_ACCESS_TOKEN, username);
+        System.out.println("DELETE USER RESPONSE : " + response10);
     }
    
 }

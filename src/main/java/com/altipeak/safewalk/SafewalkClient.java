@@ -29,4 +29,5 @@ public interface SafewalkClient {
     
     DeleteTokenAssociation deleteTokenAssociation(String accessToken, String username, DeviceType deviceType, String serialNumber) throws ConnectivityException;
     
+    CreateRegistrationCode createRegistrationCode(String accessToken, String username) throws ConnectivityException;
 }

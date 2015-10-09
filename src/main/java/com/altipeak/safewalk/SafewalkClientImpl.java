@@ -61,6 +61,8 @@ public class SafewalkClientImpl implements SafewalkClient
     private static final String JSON_GET_TOKEN_ASSOCIATIONS_PASSWORD_REQUIRED_FIELD = "password_required";
     /* Delete associations response */
     private static final String JSON_DELETE_TOKEN_ASSOCIATION_CODE_FIELD = "code";
+    /* Create registration code response */
+    private static final String JSON_CREATE_REGISTRATION_CODE_CODE_FIELD = "code";
     
     private final ServerConnectivityHelper serverConnetivityHelper;
     
@@ -281,6 +283,21 @@ public class SafewalkClientImpl implements SafewalkClient
             return new DeleteTokenAssociation(response.getResponseCode(), getErrors(response.getContent()));
         }
     }
+    
+    public CreateRegistrationCode createRegistrationCode(String accessToken,final String username) throws ConnectivityException {
+        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);
+        Response response = serverConnetivityHelper.post(String.format("/api/v1/admin/user/%s/registrationtoken/?format=json", username), parameters, headers);
+        if ( response.getResponseCode() == 200 ) {
+            return new CreateRegistrationCode(response.getResponseCode());
+        }else if ( response.getResponseCode() == 400 ){
+            JSONObject jsonResponse = new JSONObject(response.getContent());
+            return new CreateRegistrationCode(response.getResponseCode(), getErrors(response.getContent()), this.getString(jsonResponse, JSON_CREATE_REGISTRATION_CODE_CODE_FIELD));
+        }else{
+            return new CreateRegistrationCode(response.getResponseCode(), getErrors(response.getContent()), null);
+        }
+    }
+
     
     // ************************************
     // * Private Methods
