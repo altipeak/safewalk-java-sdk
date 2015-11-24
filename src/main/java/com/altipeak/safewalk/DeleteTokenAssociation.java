@@ -19,13 +19,13 @@ public class DeleteTokenAssociation {
     // * Constructors
     // ************************************
     
-    public DeleteTokenAssociation(int httpCode, String code){
+    /*package*/ DeleteTokenAssociation(int httpCode, String code){
         this.code = code;
         this.httpCode = httpCode;
         this.errors = Collections.emptyMap();
     }
     
-    public DeleteTokenAssociation(int httpCode, Map<String, List<String>> errors){
+    /*package*/ DeleteTokenAssociation(int httpCode, Map<String, List<String>> errors){
         this.code = null;
         this.httpCode = httpCode;
         this.errors = errors;

@@ -17,12 +17,12 @@ public class DeleteUserResponse {
     // * Constructors
     // ************************************
     
-    public DeleteUserResponse(int httpCode){
+    /*package*/ DeleteUserResponse(int httpCode){
         this.httpCode = httpCode;
         this.errors = Collections.emptyMap();
     }
     
-    public DeleteUserResponse(int httpCode, Map<String, List<String>> errors){
+    /*package*/ DeleteUserResponse(int httpCode, Map<String, List<String>> errors){
         this.httpCode = httpCode;
         this.errors = errors;
     }

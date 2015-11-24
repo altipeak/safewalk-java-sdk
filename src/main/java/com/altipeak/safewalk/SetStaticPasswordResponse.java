@@ -17,12 +17,12 @@ public class SetStaticPasswordResponse {
     // * Constructors
     // ************************************
     
-    public SetStaticPasswordResponse(int httpCode){
+    /*package*/ SetStaticPasswordResponse(int httpCode){
         this.httpCode = httpCode;
         this.errors = Collections.emptyMap();
     }
     
-    public SetStaticPasswordResponse(int httpCode, Map<String, List<String>> errors){
+    /*package*/ SetStaticPasswordResponse(int httpCode, Map<String, List<String>> errors){
         this.httpCode = httpCode;
         this.errors = errors;
     }

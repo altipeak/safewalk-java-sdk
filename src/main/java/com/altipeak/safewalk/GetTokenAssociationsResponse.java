@@ -19,14 +19,14 @@ public class GetTokenAssociationsResponse {
     // * Constructors
     // ************************************
     
-    public GetTokenAssociationsResponse(int httpCode
+    /*package*/ GetTokenAssociationsResponse(int httpCode
                                 , List<TokenAssociation> associations){
         this.associations = associations;
         this.httpCode = httpCode;
         this.errors = Collections.emptyMap();
     }
     
-    public GetTokenAssociationsResponse(int httpCode, Map<String, List<String>> errors){
+    /*package*/ GetTokenAssociationsResponse(int httpCode, Map<String, List<String>> errors){
         this.associations = Collections.emptyList();
         this.httpCode = httpCode;
         this.errors = errors;

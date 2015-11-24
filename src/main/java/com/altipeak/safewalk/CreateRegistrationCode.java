@@ -19,7 +19,7 @@ public class CreateRegistrationCode {
     // * Constructors
     // ************************************
     
-    public CreateRegistrationCode(int httpCode){
+    /*package*/ CreateRegistrationCode(int httpCode){
         
         this.httpCode = httpCode;
         this.errors = Collections.emptyMap();
@@ -27,7 +27,7 @@ public class CreateRegistrationCode {
         
     }
     
-    public CreateRegistrationCode(int httpCode, Map<String, List<String>> errors, String code){
+    /*package*/ CreateRegistrationCode(int httpCode, Map<String, List<String>> errors, String code){
         this.httpCode = httpCode;
         this.errors = errors;
         this.code = code;

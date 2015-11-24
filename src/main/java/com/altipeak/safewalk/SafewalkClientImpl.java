@@ -17,10 +17,6 @@ import com.altipeak.safewalk.helper.ServerConnectivityHelper;
 import com.altipeak.safewalk.helper.ServerConnectivityHelper.ConnectivityException;
 import com.altipeak.safewalk.helper.ServerConnectivityHelper.Response;
 
-/**
- * Safewalk integration Client
- */
-
 public class SafewalkClientImpl implements SafewalkClient
 {
    
@@ -74,10 +70,12 @@ public class SafewalkClientImpl implements SafewalkClient
     // * Public Methods
     // ************************************
     
+    @Override
     public AuthenticationResponse authenticate(final String accessToken, final String username, final String password) throws ConnectivityException {
         return this.authenticate(accessToken, username, password, "");
     }
 
+    @Override
     public AuthenticationResponse authenticate(final String accessToken, final String username, final String password, final String transactionId) throws ConnectivityException{
         Map<String, String> parameters = new HashMap<String, String>() { 
             private static final long serialVersionUID = 1L;
@@ -106,6 +104,7 @@ public class SafewalkClientImpl implements SafewalkClient
         }
     }
     
+    @Override
     public CreateUserResponse createUser(final String accessToken, final String username, final String password, final String firstName, final String lastName, final String mobilePhone, final String email, final String parent) throws ConnectivityException {
         Map<String, String> parameters = new HashMap<String, String>() { 
             private static final long serialVersionUID = 1L;
@@ -138,6 +137,7 @@ public class SafewalkClientImpl implements SafewalkClient
         }
     }
     
+    @Override
     public UpdateUserResponse updateUser(final String accessToken, final String username, final String mobilePhone, final String email) throws ConnectivityException {
         Map<String, String> parameters = new HashMap<String, String>() { 
             private static final long serialVersionUID = 1L;
@@ -155,6 +155,7 @@ public class SafewalkClientImpl implements SafewalkClient
         }
     }
     
+    @Override
     public GetUserResponse getUser(final String accessToken, final String username) throws ConnectivityException {
         Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);
         Map<String, String> parameters = new HashMap<String, String>() { 
@@ -182,6 +183,7 @@ public class SafewalkClientImpl implements SafewalkClient
         }
     }
     
+    @Override
     public DeleteUserResponse deleteUser(String accessToken, String username) throws ConnectivityException {
         Map<String, String> parameters = new HashMap<String, String>();
         Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);
@@ -193,6 +195,7 @@ public class SafewalkClientImpl implements SafewalkClient
         }
     }
     
+    @Override
     public SetStaticPasswordResponse setStaticPassword(final String accessToken, final String username, final String password) throws ConnectivityException {
         Map<String, String> parameters = new HashMap<String, String>() { 
             private static final long serialVersionUID = 1L;
@@ -210,10 +213,12 @@ public class SafewalkClientImpl implements SafewalkClient
         }
     }
     
+    @Override
     public AssociateTokenResponse associateToken(final String accessToken, final String username, final DeviceType deviceType) throws ConnectivityException {
         return associateToken(accessToken, username, deviceType, null, null);
     }
     
+    @Override
     public AssociateTokenResponse associateToken(final String accessToken, final String username, final DeviceType deviceType, final Boolean sendRegistrationCode, final Boolean sendDownloadLinks) throws ConnectivityException {
         Map<String, String> parameters = new HashMap<String, String>() { 
             private static final long serialVersionUID = 1L;
@@ -240,6 +245,7 @@ public class SafewalkClientImpl implements SafewalkClient
         }
     }
     
+    @Override
     public GetTokenAssociationsResponse getTokenAssociations(String accessToken, String username) throws ConnectivityException {
         Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);
         Map<String, String> parameters = new HashMap<String, String>() { 
@@ -267,6 +273,7 @@ public class SafewalkClientImpl implements SafewalkClient
         }
     }
     
+    @Override
     public DeleteTokenAssociation deleteTokenAssociation(String accessToken, String username, DeviceType deviceType, String serialNumber) throws ConnectivityException {
         Map<String, String> parameters = new HashMap<String, String>(){
             private static final long serialVersionUID = 1L;
@@ -284,6 +291,7 @@ public class SafewalkClientImpl implements SafewalkClient
         }
     }
     
+    @Override
     public CreateRegistrationCode createRegistrationCode(String accessToken,final String username) throws ConnectivityException {
         Map<String, String> parameters = new HashMap<String, String>();
         Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);

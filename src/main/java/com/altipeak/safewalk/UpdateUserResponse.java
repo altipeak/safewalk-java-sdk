@@ -17,12 +17,12 @@ public class UpdateUserResponse {
     // * Constructors
     // ************************************
     
-    public UpdateUserResponse(int httpCode){
+    /*package*/ UpdateUserResponse(int httpCode){
         this.httpCode = httpCode;
         this.errors = Collections.emptyMap();
     }
     
-    public UpdateUserResponse(int httpCode, Map<String, List<String>> errors){
+    /*package*/ UpdateUserResponse(int httpCode, Map<String, List<String>> errors){
         this.httpCode = httpCode;
         this.errors = errors;
     }

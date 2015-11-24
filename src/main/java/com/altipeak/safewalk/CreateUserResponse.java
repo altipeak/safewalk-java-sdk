@@ -32,7 +32,7 @@ public class CreateUserResponse {
     // * Constructors
     // ************************************
     
-    public CreateUserResponse(int httpCode
+    /*package*/ CreateUserResponse(int httpCode
                             , String username
                             , String firstName
                             , String lastName
@@ -57,7 +57,7 @@ public class CreateUserResponse {
         
     }
     
-    public CreateUserResponse(int httpCode, Map<String, List<String>> errors){
+    /*package*/ CreateUserResponse(int httpCode, Map<String, List<String>> errors){
         this.dbMobilePhone = null;
         this.dbEmail = null;
         this.ldapMobilePhone = null;
