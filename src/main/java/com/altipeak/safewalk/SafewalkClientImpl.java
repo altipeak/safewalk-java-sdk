@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.altipeak.safewalk.AuthenticationResponse.AuthenticationCode;
+import com.altipeak.safewalk.AuthenticationResponse.ReplyCode;
 import com.altipeak.safewalk.GetTokenAssociationsResponse.TokenAssociation;
 import com.altipeak.safewalk.helper.ServerConnectivityHelper;
 import com.altipeak.safewalk.helper.ServerConnectivityHelper.ConnectivityException;
@@ -22,6 +23,7 @@ public class SafewalkClientImpl implements SafewalkClient
    
     /* Authentication response */
     private static final String JSON_AUTH_REPLY_MESSAGE_FIELD = "reply-message";
+    private static final String JSON_AUTH_REPLY_CODE_FIELD = "reply-code";
     private static final String JSON_AUTH_CODE_FIELD = "code";
     private static final String JSON_AUTH_TRANSACTION_FIELD = "transaction-id";
     private static final String JSON_AUTH_USERNAME_ID_FIELD = "username";
@@ -97,6 +99,7 @@ public class SafewalkClientImpl implements SafewalkClient
                    , this.getString(jsonResponse, JSON_AUTH_TRANSACTION_FIELD)
                    , this.getString(jsonResponse, JSON_AUTH_USERNAME_ID_FIELD)
                    , this.getString(jsonResponse, JSON_AUTH_REPLY_MESSAGE_FIELD)
+                   , this.getReplyCode(jsonResponse, JSON_AUTH_REPLY_CODE_FIELD)
                    , this.getString(jsonResponse, JSON_AUTH_DETAIL_FIELD)
             );
         }else{
@@ -321,6 +324,10 @@ public class SafewalkClientImpl implements SafewalkClient
     
     private AuthenticationCode getAuthenticationCode(JSONObject json, String key){
         return (this.getString(json, key) != null) ? AuthenticationCode.valueOf(json.getString(key)) : null;
+    }
+    
+    private ReplyCode getReplyCode(JSONObject json, String key){
+        return (this.getString(json, key) != null) ? ReplyCode.valueOf(json.getString(key)) : null;
     }
     
     private Map<String, List<String>> getErrors(String errors){

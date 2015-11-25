@@ -16,6 +16,7 @@ public class AuthenticationResponse {
     private final String transactionId;
     private final String username;
     private final String replyMessage;
+    private final ReplyCode replyCode;
     
     private final int httpCode;
     private final String detail;
@@ -24,10 +25,75 @@ public class AuthenticationResponse {
     
     private static final String SEPARATOR = " | ";
 
+    /**
+     * @since 1.1.10
+     */
     public enum AuthenticationCode {
         ACCESS_ALLOWED,
         ACCESS_CHALLENGE,
         ACCESS_DENIED;
+    }
+    
+    
+    /**
+     * @since 1.1.10
+     */
+    public enum ReplyCode {
+        /**
+         * <p>
+         * The user is locked. {@link AuthenticationResponse#getReplyMessage()} returns <code>"The user is locked, please contact your system administrator"</code>
+         * </p>
+         * <p>
+         *   Only used when {@link AuthenticationResponse#getCode()} returns {@link AuthenticationCode#ACCESS_DENIED}
+         * </p>
+         */
+        USR_LOCKED,
+        /**
+         * <p>
+         *   An internal error occured. {@link AuthenticationResponse#getReplyMessage()} returns <code>"Internal system error, please contact your system administrator."</code>Causes
+         *   for this are:
+         *   <ul>
+         *     <li> LDAP Connection error
+         *     <li> Invalid license
+         *     <li> The system fails to send the otp (only for Hybrid and Virtual devices)
+         *   </ul>
+         * </p> 
+         * <p>
+         *   Only used when {@link AuthenticationResponse#getCode()} returns {@link AuthenticationCode#ACCESS_DENIED}
+         * </p>
+         */
+        INTERNAL_SYSTEM_ERROR,
+        
+        /**
+         * <p>
+         *   Invalid credentials. {@link AuthenticationResponse#getReplyMessage()} returns <code>"Invalid credentials, please make sure you entered your username and up to date password/otp correctly"</code>
+         * </p>
+         * <p>
+         *   Only used when {@link AuthenticationResponse#getCode()} returns {@link AuthenticationCode#ACCESS_DENIED}
+         * </p>
+         */
+        INVALID_CREDENTIALS,
+        /** 
+         * <p>
+         * OTP required. {@link AuthenticationResponse#getReplyMessage()} returns <code>"Please enter your OTP code"</code>. 
+         * </p>
+         * <p>
+         * Only used when {@link AuthenticationResponse#getCode()} returns {@link AuthenticationCode#ACCESS_CHALLENGE}
+         * </p>
+         * <p>
+         * This is the case where the user has a token with password required enabled (2 Step authentication).
+         * </p> 
+         */
+        OTP_REQUIRED,
+        /** 
+         * <p>
+         * The device (token) is out of sync. {@link AuthenticationResponse#getReplyMessage()} returns <code>"Please enter an additional OTP code to synchronize your account"</code>. 
+         * </p>
+         * <p>
+         * Only used when {@link AuthenticationResponse#getCode()} returns {@link AuthenticationCode#ACCESS_CHALLENGE}
+         * </p>
+         */
+        DEVICE_OUT_OF_SYNC
     }
     
     /*protected*/ AuthenticationResponse(int httpCode
@@ -35,11 +101,13 @@ public class AuthenticationResponse {
                                 , String transactionId
                                 , String username
                                 , String replyMessage
+                                , ReplyCode replyCode
                                 , String detail) {
         this.code = code;
         this.transactionId = transactionId;
         this.username = username;
         this.replyMessage = replyMessage;
+        this.replyCode = replyCode;
         this.httpCode = httpCode;
         this.detail = detail;
         this.errors = Collections.emptyMap();
@@ -50,6 +118,7 @@ public class AuthenticationResponse {
         this.transactionId = null;
         this.username = null;
         this.replyMessage = null;
+        this.replyCode = null;
         this.httpCode = httpCode;
         this.detail = null;
         this.errors = errors;
@@ -67,6 +136,7 @@ public class AuthenticationResponse {
         if ( this.transactionId != null ) sb.append(this.transactionId).append(SEPARATOR);
         if ( this.username != null ) sb.append(this.username).append(SEPARATOR);
         if ( this.replyMessage != null ) sb.append(this.replyMessage).append(SEPARATOR);
+        if ( this.replyCode != null ) sb.append(this.replyCode).append(SEPARATOR);
         if ( this.detail != null ) sb.append(this.detail).append(SEPARATOR);
         
         for (Entry<String, List<String>> errors : this.errors.entrySet()) {
@@ -151,5 +221,15 @@ public class AuthenticationResponse {
     public String getDetail() {
         return detail;
     }
+
+    /**
+     * @since v1.5
+     * @return the replay code from the server if {@link AuthenticationResponse#getHttpCode()} is 401, 200 or 500 (Can't connect to LDAP) otherwise is null. This can be used to present a message
+     * different that what it is in {@link AuthenticationResponse#getReplyMessage()}
+     */
+    public ReplyCode getReplyCode() {
+        return replyCode;
+    }
+    
     
 }

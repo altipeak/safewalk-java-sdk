@@ -10,12 +10,12 @@ import junit.framework.TestSuite;
 
 public class SafewalkClientImplTest  extends TestCase
 {
-    private static final String HOST = "https://192.168.1.160";
+    private static final String HOST = "https://192.168.1.150";
     private static final long  PORT = 8443;
-    private static final String AUTHENTICATION_API_ACCESS_TOKEN = "429d278986d80cbf821cdc84d213801b7638cb83";
-    private static final String ADMIN_API_ACCESS_TOKEN = "80f294bfbd0b7bd92ad66c64877484192c334b95";
-    private static final String INTERNAL_USERNAME = "testinternaluser";
-    private static final String LDAP_USERNAME = "testldapuser@local.com";
+    private static final String AUTHENTICATION_API_ACCESS_TOKEN = "92c1c93e61cc1ad13d80f9d345e025f1a14587b9";
+    private static final String ADMIN_API_ACCESS_TOKEN = "8d875fade285624f16430b68cbd45156b63a5c1d";
+    private static final String INTERNAL_USERNAME = "sgiinternaluser";
+    private static final String LDAP_USERNAME = "sgildapuser@local.com";
     
     private ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(HOST, PORT);
     
@@ -71,8 +71,10 @@ public class SafewalkClientImplTest  extends TestCase
         GetTokenAssociationsResponse response8 = client.getTokenAssociations(ADMIN_API_ACCESS_TOKEN, username);
         System.out.println("GET ASSOCIATIONS RESPONSE : " + response8);
         //
-        DeleteTokenAssociation response9 = client.deleteTokenAssociation(ADMIN_API_ACCESS_TOKEN, username, DeviceType.getEnum(response8.getAssociations().get(0).getDeviceType()), response8.getAssociations().get(0).getSerialNumber());
-        System.out.println("DELETE ASSOCIATIONS RESPONSE : " + response9);
+        if ( response8.getAssociations().size() > 0 ) {
+          DeleteTokenAssociation response9 = client.deleteTokenAssociation(ADMIN_API_ACCESS_TOKEN, username, DeviceType.getEnum(response8.getAssociations().get(0).getDeviceType()), response8.getAssociations().get(0).getSerialNumber());
+          System.out.println("DELETE ASSOCIATIONS RESPONSE : " + response9);
+        }
         //
         DeleteUserResponse response10 = client.deleteUser(ADMIN_API_ACCESS_TOKEN, username);
         System.out.println("DELETE USER RESPONSE : " + response10);
