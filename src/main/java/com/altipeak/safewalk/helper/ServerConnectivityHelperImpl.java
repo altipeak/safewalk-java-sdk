@@ -22,7 +22,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
 
-    private static final int DEFAULT_TIMEOUT = 180000;
+    private static final int DEFAULT_TIMEOUT = 30000;
     
     private final String host;
     private final long port;

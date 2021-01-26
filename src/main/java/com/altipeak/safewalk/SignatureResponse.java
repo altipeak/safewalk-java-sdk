@@ -1,21 +1,9 @@
 package com.altipeak.safewalk;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.math.BigInteger;
-import java.security.KeyFactory;
-import java.security.Signature;
-import java.security.spec.RSAPrivateCrtKeySpec;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import sun.security.util.DerInputStream;
-import sun.security.util.DerValue;
 
 public class SignatureResponse {
 
