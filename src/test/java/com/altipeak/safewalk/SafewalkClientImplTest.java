@@ -43,7 +43,7 @@ public class SafewalkClientImplTest extends TestCase
     }
     
     public void testWithLdapUser() throws ConnectivityException {
-//        testSafewalkClient(LDAP_USERNAME);
+        testSafewalkClient(LDAP_USERNAME);
     }
     
     private void testSafewalkClient(String username) throws ConnectivityException {
