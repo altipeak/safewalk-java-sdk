@@ -243,4 +243,86 @@ public interface SafewalkClient {
      * @throws ConnectivityException
      */
     CreateRegistrationCode createRegistrationCode(String accessToken, String username) throws ConnectivityException;
+    
+    /**
+     * <p>
+     * Get's the sessionKey string to sign with QR. 
+     * </p>
+     * <p>
+     * The username will determine if the user is an internal user or an LDAP user. 
+     * <ul>
+     *   <li>If the given username has the format of &lt;username&gt; the user will be created as an internal user (In the database). If it doesn't exist, it will look in the LDAP following the priority order.
+     *   <li>If the given username has the format of &lt;username&gt@&lt;domain&gt; the user will be created in the LDAP with the given domain.
+     * </ul>
+     * </p>
+     * 
+     * @since v1.1.10
+     * @param accessToken
+     * @return {@link SessionKeyResponse}
+     * @throws ConnectivityException
+     */
+    SessionKeyResponse getQr(String accessToken) throws ConnectivityException;
+    
+    /**
+     * <p>
+     *  Verifies the status of QR sessionKey. 
+     * </p>
+     * <p>
+     * The username will determine if the user is an internal user or an LDAP user. 
+     * <ul>
+     *   <li>If the given username has the format of &lt;username&gt; the user will be created as an internal user (In the database). If it doesn't exist, it will look in the LDAP following the priority order.
+     *   <li>If the given username has the format of &lt;username&gt@&lt;domain&gt; the user will be created in the LDAP with the given domain.
+     * </ul>
+     * </p>
+     * 
+     * @since v1.1.10
+     * @param accessToken
+     * @param username
+     * @param password
+     * @return {@link SessionKeyResponse}
+     * @throws ConnectivityException
+     */
+    SessionKeyResponse verifyQrStatus(String accessToken, String username, String password) throws ConnectivityException;
+    
+    /**
+     * <p>
+     *  Sends a Push signature to the mobile device.
+     * </p>
+     * <p>
+     * The username will determine if the user is an internal user or an LDAP user. 
+     * <ul>
+     *   <li>If the given username has the format of &lt;username&gt; the user will be created as an internal user (In the database). If it doesn't exist, it will look in the LDAP following the priority order.
+     *   <li>If the given username has the format of &lt;username&gt@&lt;domain&gt; the user will be created in the LDAP with the given domain.
+     * </ul>
+     * </p>
+     * 
+     * @since v1.1.10
+     * @param accessToken
+     * @param username
+     * @param password
+     * @return {@link SignatureResponse}
+     * @throws ConnectivityException
+     */
+    SignatureResponse sendPushSignature(String accessToken,final String username, final String password) throws ConnectivityException;
+    
+    /**
+     * <p>
+     *  Standard authentication for external users.
+     * </p>
+     * <p>
+     * The username will determine if the user is an internal user or an LDAP user. 
+     * <ul>
+     *   <li>If the given username has the format of &lt;username&gt; the user will be created as an internal user (In the database). If it doesn't exist, it will look in the LDAP following the priority order.
+     *   <li>If the given username has the format of &lt;username&gt@&lt;domain&gt; the user will be created in the LDAP with the given domain.
+     * </ul>
+     * </p>
+     * 
+     * @since v1.1.10
+     * @param accessToken
+     * @param username
+     * @param password
+     * @return {@link AuthenticationResponse}
+     * @throws ConnectivityException
+     */
+    AuthenticationResponse authenticatePasswordExternal(String accessToken,final String username, final String password) throws ConnectivityException;
 }

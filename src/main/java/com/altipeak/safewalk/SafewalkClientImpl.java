@@ -18,6 +18,7 @@ import com.altipeak.safewalk.helper.ServerConnectivityHelper;
 import com.altipeak.safewalk.helper.ServerConnectivityHelper.ConnectivityException;
 import com.altipeak.safewalk.helper.ServerConnectivityHelper.Response;
 
+@SuppressWarnings("restriction")
 public class SafewalkClientImpl implements SafewalkClient
 {
    
@@ -28,6 +29,7 @@ public class SafewalkClientImpl implements SafewalkClient
     private static final String JSON_AUTH_TRANSACTION_FIELD = "transaction-id";
     private static final String JSON_AUTH_USERNAME_ID_FIELD = "username";
     private static final String JSON_AUTH_DETAIL_FIELD = "detail";
+    private static final String JSON_AUTH_CHALLENGE_FIELD = "challenge";
     /* Create user response */
     private static final String JSON_CREATE_USER_USERNAME_FIELD = "username";
     private static final String JSON_CREATE_USER_FIRST_NAME_FIELD = "first_name";
@@ -52,6 +54,7 @@ public class SafewalkClientImpl implements SafewalkClient
     /* Associate token response */
     private static final String JSON_ASSOCIATE_TOKEN_FAIL_TO_SEND_REG_CODE_FIELD = "fail_to_send_registration_code";
     private static final String JSON_ASSOCIATE_TOKEN_FAIL_TO_SEND_DOWNLOAD_LINKS_FIELD = "fail_to_send_download_links";
+    private static final String AUTHENTICATION_FOR_REGISTRATION_ACCESS_TOKEN = "access_token";
     /* Associations response */
     private static final String JSON_GET_TOKEN_ASSOCIATIONS_DEVICE_TYPE_FIELD = "type";
     private static final String JSON_GET_TOKEN_ASSOCIATIONS_SERIAL_NUMBER_FIELD = "serial_number";
@@ -61,6 +64,8 @@ public class SafewalkClientImpl implements SafewalkClient
     private static final String JSON_DELETE_TOKEN_ASSOCIATION_CODE_FIELD = "code";
     /* Create registration code response */
     private static final String JSON_CREATE_REGISTRATION_CODE_CODE_FIELD = "code";
+    /* Registration response */
+    private static final String JSON_REGISTRATION_SERIAL_NUMBER_FIELD = "serial_number";
     
     private final ServerConnectivityHelper serverConnetivityHelper;
     
@@ -106,6 +111,30 @@ public class SafewalkClientImpl implements SafewalkClient
             return new AuthenticationResponse(response.getResponseCode(), getErrors(response.getContent()));
         }
     }
+    
+    @Override
+    public SignatureResponse sendPushSignature(final String accessToken, final String username, final String password) throws ConnectivityException {
+    	Map<String, String> parameters = new HashMap<String, String>() { 
+            private static final long serialVersionUID = 1L;
+            {
+                put("username", username);
+                put("password", password);
+                put("hash", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F");
+                put("data", "All the data here will be signed. This request was generated from Safewalk API.");
+                put("title", "Sign transaction");
+                put("body", "Push signature triggered from safewalk API");
+            }
+        };
+        Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);
+        Response response = serverConnetivityHelper.post("/api/v1/auth/push_signature/", parameters, headers);
+        if ( response.getResponseCode() == 200 ) {
+            return new SignatureResponse(response.getResponseCode());
+        }else if ( response.getResponseCode() == 400 ){
+            return new SignatureResponse(response.getResponseCode(), getErrors(response.getContent()));
+        }else{
+        	return new SignatureResponse(response.getResponseCode(), getErrors(response.getContent()));
+        }
+	}
     
     @Override
     public CreateUserResponse createUser(final String accessToken, final String username, final String password, final String firstName, final String lastName, final String mobilePhone, final String email, final String parent) throws ConnectivityException {
@@ -308,7 +337,67 @@ public class SafewalkClientImpl implements SafewalkClient
             return new CreateRegistrationCode(response.getResponseCode(), getErrors(response.getContent()), null);
         }
     }
-
+    
+    @Override
+    public SessionKeyResponse getQr(String accessToken) throws ConnectivityException {
+        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);
+        Response response = serverConnetivityHelper.post("/api/v1/auth/session_key/?format=json", parameters, headers);
+        if ( response.getResponseCode() == 200 ) {
+        	JSONObject jsonResponse = new JSONObject(response.getContent());
+            return new SessionKeyResponse(response.getResponseCode(), this.getString(jsonResponse, JSON_AUTH_CHALLENGE_FIELD));
+        }else if ( response.getResponseCode() == 400 ){
+            JSONObject jsonResponse = new JSONObject(response.getContent());
+            return new SessionKeyResponse(response.getResponseCode(), getErrors(response.getContent()));
+        }else{
+            return new SessionKeyResponse(response.getResponseCode(), getErrors(response.getContent()));
+        }
+    }
+    
+    @Override
+    public  SessionKeyResponse verifyQrStatus(String accessToken, String username, String sessionKey) throws ConnectivityException {
+        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);
+        Response response = serverConnetivityHelper.get("/api/v1/auth/session_key/"+sessionKey+"/?format=json", parameters, headers);
+        if ( response.getResponseCode() == 200 ) {
+        	JSONObject jsonResponse = new JSONObject(response.getContent());
+        	return new SessionKeyResponse(response.getResponseCode(), this.getString(jsonResponse, JSON_AUTH_CODE_FIELD));
+        }else if ( response.getResponseCode() == 400 ){
+            return new SessionKeyResponse(response.getResponseCode(), getErrors(response.getContent()));
+        }else{
+        	return new SessionKeyResponse(response.getResponseCode(), getErrors(response.getContent()));
+        }
+    }
+        
+    @Override
+	public AuthenticationResponse authenticatePasswordExternal(String accessToken, final String username, final String password) throws ConnectivityException {
+	Map<String, String> parameters = new HashMap<String, String>() { 
+        private static final long serialVersionUID = 1L;
+        {
+            put("username", username);
+            put("password", password);
+        }
+    };
+    Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);
+    Response response = serverConnetivityHelper.post("/api/v1/auth/pswdcheckedauth/?format=json", parameters, headers);
+    if ( response.getResponseCode() == 200 || response.getResponseCode() == 401 ) {
+        
+        JSONObject jsonResponse = new JSONObject(response.getContent());
+        
+        return new AuthenticationResponse(
+                 response.getResponseCode()
+               , this.getAuthenticationCode(jsonResponse, JSON_AUTH_CODE_FIELD)
+               , this.getString(jsonResponse, JSON_AUTH_TRANSACTION_FIELD)
+               , this.getString(jsonResponse, JSON_AUTH_USERNAME_ID_FIELD)
+               , this.getString(jsonResponse, JSON_AUTH_REPLY_MESSAGE_FIELD)
+               , this.getReplyCode(jsonResponse, JSON_AUTH_REPLY_CODE_FIELD)
+               , this.getString(jsonResponse, JSON_AUTH_DETAIL_FIELD)
+        );
+    }else{
+        return new AuthenticationResponse(response.getResponseCode(), getErrors(response.getContent()));
+    }
+	}
+    
     
     // ************************************
     // * Private Methods
@@ -329,7 +418,7 @@ public class SafewalkClientImpl implements SafewalkClient
     private ReplyCode getReplyCode(JSONObject json, String key){
         return (this.getString(json, key) != null) ? ReplyCode.valueOf(json.getString(key)) : null;
     }
-    
+              
     private Map<String, List<String>> getErrors(String errors){
         Map<String, List<String>> result = new HashMap<String, List<String>>();
         try {
@@ -353,6 +442,4 @@ public class SafewalkClientImpl implements SafewalkClient
         }
         return result;
     }
-
-    
 }
