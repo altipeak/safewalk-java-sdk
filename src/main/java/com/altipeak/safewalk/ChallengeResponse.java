@@ -11,7 +11,7 @@ public class ChallengeResponse {
     
     private final Map<String, List<String>> errors;
     
-    private String challenge = "";
+    private String challenge = " ";
     
     private static final String SEPARATOR = " | ";
     

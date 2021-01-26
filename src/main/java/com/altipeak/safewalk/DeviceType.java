@@ -5,8 +5,7 @@ public enum DeviceType {
     SESAMI_MOBILE ("SESAMI:Mobile"),
     SESAMI_MOBILE_HYBRID ("SESAMI:Mobile:Hybrid"),
     TOTP_MOBILE ("TOTP:Mobile"),
-    TOTP_MOBILE_HYBRID ("TOTP:Mobile:Hybrid"),
-    FAST_AUTH ("Fast:Auth:Mobile:Asymmetric");
+    TOTP_MOBILE_HYBRID ("TOTP:Mobile:Hybrid");
     
     private String code;
     

@@ -11,7 +11,7 @@ public class SessionKeyResponse {
     
     private final Map<String, List<String>> errors;
     
-    private String code = "";
+    private String code = " ";
     
     private static final String SEPARATOR = " | ";
     
