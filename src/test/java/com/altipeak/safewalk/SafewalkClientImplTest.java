@@ -10,7 +10,7 @@ import junit.framework.TestSuite;
 
 public class SafewalkClientImplTest extends TestCase
 {
-    private static final String HOST = "https://192.168.77.108";
+    private static final String HOST = "https://192.168.77.107";
     private static final long  PORT = 8443;
     private static final String AUTHENTICATION_API_ACCESS_TOKEN = "5688dbb230f83e4a8d95e951372b901e87da6ebe";
     private static final String ADMIN_API_ACCESS_TOKEN = "a7cf1bee7d8ff1bdcc1f09524e7556f0532d8e7e";
@@ -43,7 +43,7 @@ public class SafewalkClientImplTest extends TestCase
     }
     
     public void testWithLdapUser() throws ConnectivityException {
-        testSafewalkClient(LDAP_USERNAME);
+//        testSafewalkClient(LDAP_USERNAME);
     }
     
     private void testSafewalkClient(String username) throws ConnectivityException {
@@ -81,16 +81,16 @@ public class SafewalkClientImplTest extends TestCase
         SessionKeyResponse response10 = client.getQr(ADMIN_API_ACCESS_TOKEN);
         System.out.println("GET QR RESPONSE : " + response10);
         //
-        SessionKeyResponse response11 = client.verifyQrStatus(AUTHENTICATION_API_ACCESS_TOKEN, "fastauth", response10.getChallenge());
+        SessionKeyResponse response11 = client.verifyQrStatus(ADMIN_API_ACCESS_TOKEN, FAST_AUTH_USERNAME, response10.getChallenge());
         System.out.println("VERIFY QR RESPONSE : " + response11);
-        //
-        SignatureResponse response12 = client.sendPushSignature(ADMIN_API_ACCESS_TOKEN, "fastauth","abcde");
+        // 
+        SignatureResponse response12 = client.sendPushSignature(ADMIN_API_ACCESS_TOKEN, FAST_AUTH_USERNAME,"abcde");
         System.out.println("PUSH SIGNATURE RESPONSE : " + response12);
         //
-        AuthenticationResponse response13 = client.authenticate(AUTHENTICATION_API_ACCESS_TOKEN, "fastauth","abcde");
+        AuthenticationResponse response13 = client.authenticate(AUTHENTICATION_API_ACCESS_TOKEN, FAST_AUTH_USERNAME, "abcde");
         System.out.println("PUSH AUTHENTICATION RESPONSE : " + response13);
         //
-        AuthenticationResponse response14 = client.authenticatePasswordExternal(AUTHENTICATION_API_ACCESS_TOKEN, username,"abcde");
+        AuthenticationResponse response14 = client.authenticatePasswordExternal(AUTHENTICATION_API_ACCESS_TOKEN, username, "abcde");
         System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response14);
         //
         DeleteUserResponse response20 = client.deleteUser(ADMIN_API_ACCESS_TOKEN, username);

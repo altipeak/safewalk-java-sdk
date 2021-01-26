@@ -354,10 +354,16 @@ public class SafewalkClientImpl implements SafewalkClient
     }
     
     @Override
-    public  SessionKeyResponse verifyQrStatus(String accessToken, String username, String sessionKey) throws ConnectivityException {
-        Map<String, String> parameters = new HashMap<String, String>();
+    public  SessionKeyResponse verifyQrStatus(String accessToken, final String username, String sessionKey) throws ConnectivityException {
+        Map<String, String> parameters = new HashMap<String, String>(){
+        private static final long serialVersionUID = 1L;
+        {
+            put("username", username);
+           
+        }
+    	};
         Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);
-        Response response = serverConnetivityHelper.get("/api/v1/auth/session_key/"+sessionKey+"/?format=json", parameters, headers);
+        Response response = serverConnetivityHelper.get("/api/v1/auth/session_key/"+sessionKey.trim()+"/", parameters, headers);
         if ( response.getResponseCode() == 200 ) {
         	JSONObject jsonResponse = new JSONObject(response.getContent());
         	return new SessionKeyResponse(response.getResponseCode(), this.getString(jsonResponse, JSON_AUTH_CODE_FIELD));
