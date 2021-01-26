@@ -53,7 +53,7 @@ public class SignatureResponse {
             for (String error : errors.getValue()) {
                 sb.append(error).append(", ");
             }
-            sb.append("]").append(SEPARATOR);
+            sb.append("]").append(SEPARATOR); 
         }
         
         return sb.toString();

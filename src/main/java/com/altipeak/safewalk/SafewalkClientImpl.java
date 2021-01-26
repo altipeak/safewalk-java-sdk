@@ -18,7 +18,6 @@ import com.altipeak.safewalk.helper.ServerConnectivityHelper;
 import com.altipeak.safewalk.helper.ServerConnectivityHelper.ConnectivityException;
 import com.altipeak.safewalk.helper.ServerConnectivityHelper.Response;
 
-@SuppressWarnings("restriction")
 public class SafewalkClientImpl implements SafewalkClient
 {
    
