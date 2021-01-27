@@ -44,13 +44,13 @@ private static final String  FAST_AUTH_USERNAME = "fastauth";
         System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response16);
 
 ```
-* host : The server host
-* port : The server port
-* AUTHENTICATION_API_ACCESS_TOKEN : The access token of the system user created to access the authentication-api
-* ADMIN_API_ACCESS_TOKEN : The access token of the system user created to access the admin-api 
+* host : The server host.
+* port : The server port.
+* AUTHENTICATION_API_ACCESS_TOKEN : The access token of the system user created to access the authentication-api.
+* ADMIN_API_ACCESS_TOKEN : The access token of the system user created to access the admin-api. 
 * STATIC_PASSWORD_USERNAME : An LDAP or internal user with no licenses asigned and password authentication allowed. 
-* FAST_AUTH_USER : The user registered in safewalk with a Fast:Auth:Sign license
-
+* FAST_AUTH_USER : The user registered in safewalk with a Fast:Auth:Sign license.
+* BYPASS_SSL_CHECK : To allow untrusted certificates.
 ### Authentication Response Examples (AuthenticationResponse class)
 
 The response below show the result of providing valid credentials
