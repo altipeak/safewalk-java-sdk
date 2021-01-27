@@ -15,7 +15,7 @@ public class SignatureResponse {
     
     private static final String SEPARATOR = " | ";
     
-    private String code = "";
+    private String signResult = "";
     
     // ************************************
     // * Constructors
@@ -26,9 +26,9 @@ public class SignatureResponse {
         this.errors = Collections.emptyMap();
     }
     
-    public SignatureResponse(int httpCode, String code){
+    public SignatureResponse(int httpCode, String signResult){
         this.httpCode = httpCode;
-        this.code = code;
+        this.signResult = signResult;
         this.errors = Collections.emptyMap();
     }
     
@@ -45,7 +45,7 @@ public class SignatureResponse {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(String.valueOf(this.httpCode)).append(SEPARATOR);
-        if ( this.code != null ) sb.append(this.code).append(SEPARATOR);     
+        if ( this.signResult != null ) sb.append(this.signResult).append(SEPARATOR);     
         for (Entry<String, List<String>> errors : this.errors.entrySet()) {
             sb.append(errors.getKey()).append(" [");
             for (String error : errors.getValue()) {
@@ -69,6 +69,6 @@ public class SignatureResponse {
      * @return the code
      */
     public String getCode() {
-        return code;
+        return signResult;
     }
 }

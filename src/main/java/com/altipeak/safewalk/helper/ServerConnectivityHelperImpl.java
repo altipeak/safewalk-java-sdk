@@ -26,10 +26,17 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
     
     private final String host;
     private final long port;
+    private static boolean bypassSSL = false;
     
     public ServerConnectivityHelperImpl(final String host, final long port) {
         this.host = host;
         this.port = port;
+    }
+    
+    public ServerConnectivityHelperImpl(final String host, final long port, final boolean bypassSSLCheck) {
+        this.host = host;
+        this.port = port;
+        this.bypassSSL = bypassSSLCheck;
     }
     
     // ************************************
@@ -66,7 +73,7 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
                     new X509TrustManager() {
                       public void checkClientTrusted(X509Certificate[] chain, String authType) {}
                       public void checkServerTrusted(X509Certificate[] chain, String authType) {}
-                      public X509Certificate[] getAcceptedIssuers() { return new X509Certificate[]{}; }
+                      public X509Certificate[] getAcceptedIssuers() { if(bypassSSL) return null; else return new X509Certificate[]{}; }
                     }
                   }, null);
               HttpsURLConnection.setDefaultSSLSocketFactory(ctx.getSocketFactory());   
@@ -146,5 +153,5 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
         }
         return builder.toString();
     }
-    
+     
 }
