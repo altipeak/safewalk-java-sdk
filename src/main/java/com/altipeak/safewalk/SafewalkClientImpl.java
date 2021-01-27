@@ -112,22 +112,23 @@ public class SafewalkClientImpl implements SafewalkClient
     }
     
     @Override
-    public SignatureResponse sendPushSignature(final String accessToken, final String username, final String password) throws ConnectivityException {
+    public SignatureResponse sendPushSignature(final String accessToken, final String username, final String password, final String hash, final String data, final String title, final String body) throws ConnectivityException {
     	Map<String, String> parameters = new HashMap<String, String>() { 
             private static final long serialVersionUID = 1L;
             {
                 put("username", username);
                 put("password", password);
-                put("hash", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F");
-                put("data", "All the data here will be signed. This request was generated from Safewalk API.");
-                put("title", "Sign transaction");
-                put("body", "Push signature triggered from safewalk API");
+                put("hash",  hash);
+                put("data",  data);
+                put("title", title);
+                put("body",  body);
             }
         };
         Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + accessToken);
-        Response response = serverConnetivityHelper.post("/api/v1/auth/push_signature/", parameters, headers);
+        Response response = serverConnetivityHelper.post("/api/v1/auth/push_signature/?format=json", parameters, headers);
         if ( response.getResponseCode() == 200 ) {
-            return new SignatureResponse(response.getResponseCode());
+        	JSONObject jsonResponse = new JSONObject(response.getContent());
+            return new SignatureResponse(response.getResponseCode(), this.getString(jsonResponse, JSON_AUTH_CODE_FIELD));
         }else if ( response.getResponseCode() == 400 ){
             return new SignatureResponse(response.getResponseCode(), getErrors(response.getContent()));
         }else{

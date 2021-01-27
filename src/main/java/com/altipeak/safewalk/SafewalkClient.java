@@ -303,7 +303,7 @@ public interface SafewalkClient {
      * @return {@link SignatureResponse}
      * @throws ConnectivityException
      */
-    SignatureResponse sendPushSignature(String accessToken,final String username, final String password) throws ConnectivityException;
+    SignatureResponse sendPushSignature(final String accessToken, final String username, final String password, final String hash, final String data, final String title, final String body) throws ConnectivityException;
     
     /**
      * <p>

@@ -10,10 +10,10 @@ import junit.framework.TestSuite;
 
 public class SafewalkClientImplTest extends TestCase
 {
-    private static final String HOST = "https://192.168.77.107";
+    private static final String HOST = "https://192.168.77.106";
     private static final long  PORT = 8443;
-    private static final String AUTHENTICATION_API_ACCESS_TOKEN = "5688dbb230f83e4a8d95e951372b901e87da6ebe";
-    private static final String ADMIN_API_ACCESS_TOKEN = "a7cf1bee7d8ff1bdcc1f09524e7556f0532d8e7e";
+    private static final String AUTHENTICATION_API_ACCESS_TOKEN = "1c52926ef844c6b549a9a1b90436f78d0d7f3a3a";
+    private static final String ADMIN_API_ACCESS_TOKEN = "59414d98a82ef3304abdd18e6580853b916e822f";
     private static final String INTERNAL_USERNAME = "internal";
     private static final String LDAP_USERNAME = "sw999408";
     private static final String FAST_AUTH_USERNAME = "fastauth";
@@ -43,7 +43,7 @@ public class SafewalkClientImplTest extends TestCase
     }
     
     public void testWithLdapUser() throws ConnectivityException {
-        testSafewalkClient(LDAP_USERNAME);
+//        testSafewalkClient(LDAP_USERNAME);
     }
     
     private void testSafewalkClient(String username) throws ConnectivityException {
@@ -59,14 +59,20 @@ public class SafewalkClientImplTest extends TestCase
         SessionKeyResponse response11 = client.verifySessionKeyChallenge(ADMIN_API_ACCESS_TOKEN, FAST_AUTH_USERNAME, response10.getChallenge());
         System.out.println("VERIFY SESSION KEY RESPONSE : " + response11);
         // 
-        SignatureResponse response12 = client.sendPushSignature(ADMIN_API_ACCESS_TOKEN, FAST_AUTH_USERNAME,"abcde");
-        System.out.println("PUSH SIGNATURE RESPONSE : " + response12);
+        SignatureResponse response12 = client.sendPushSignature(ADMIN_API_ACCESS_TOKEN, FAST_AUTH_USERNAME,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
+        System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response12);
         //
-        AuthenticationResponse response13 = client.authenticate(AUTHENTICATION_API_ACCESS_TOKEN, FAST_AUTH_USERNAME, "abcde");
-        System.out.println("PUSH AUTHENTICATION RESPONSE : " + response13);
+        SignatureResponse response13 = client.sendPushSignature(ADMIN_API_ACCESS_TOKEN, FAST_AUTH_USERNAME,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Document","Push signature triggered from safewalk API");
+        System.out.println("PUSH SIGNATURE RESPONSE OPTION 2 : " + response13);
         //
-        AuthenticationResponse response14 = client.authenticatePasswordExternal(AUTHENTICATION_API_ACCESS_TOKEN, username, "abcde");
-        System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response14);
+        SignatureResponse response14 = client.sendPushSignature(ADMIN_API_ACCESS_TOKEN, FAST_AUTH_USERNAME,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Digital Signature Request","Push signature triggered from safewalk API");
+        System.out.println("PUSH SIGNATURE RESPONSE OPTION 3: " + response14);
+        //
+        AuthenticationResponse response15 = client.authenticate(AUTHENTICATION_API_ACCESS_TOKEN, FAST_AUTH_USERNAME, "abcde");
+        System.out.println("PUSH AUTHENTICATION RESPONSE : " + response15);
+        //
+        AuthenticationResponse response16 = client.authenticatePasswordExternal(AUTHENTICATION_API_ACCESS_TOKEN, username, "abcde");
+        System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response16);
         
     }
    
