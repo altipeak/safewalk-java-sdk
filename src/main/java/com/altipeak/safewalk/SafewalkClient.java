@@ -23,7 +23,7 @@ public interface SafewalkClient {
      * 
      * @since v1.1.10
      * @param username
-     * @param password
+     * @param password - Static password or OTP
      * @return {@link AuthenticationResponse}
      * @throws ConnectivityException
      */
@@ -81,8 +81,7 @@ public interface SafewalkClient {
      * </p>
      * 
      * @since v1.1.10
-     * @param username
-     * @param password
+     * @param sessionKeyChallenge - The challenge obtained with createSessionKeyChallenge()
      * @return {@link SessionKeyResponse}
      * @throws ConnectivityException
      */
@@ -101,6 +100,12 @@ public interface SafewalkClient {
      * </p>
      * 
      * @since v1.1.10
+     * @param username
+     * @param password
+     * @param hash   
+     * @param data  -  The data to sign. Data or body are required.
+     * @param title -  The title displayed in the mobile device. Optional.
+     * @param body  -  The body of the push. Data or body are required.
      * @return {@link SignatureResponse}
      * @throws ConnectivityException
      */
@@ -120,10 +125,6 @@ public interface SafewalkClient {
      * 
      * @since v1.1.10
      * @param username
-     * @param hash   
-     * @param data  -  The data to sign. Data or body are required.
-     * @param title -  The title displayed in the mobile device. Optional.
-     * @param body  -  The body of the push. Data or body are required.
      * @return {@link AuthenticationResponse}
      * @throws ConnectivityException
      */
