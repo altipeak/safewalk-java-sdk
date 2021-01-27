@@ -13,7 +13,7 @@ private static final String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829
 private static final String ADMIN_API_ACCESS_TOKEN = "1237d30e0f29e6e59bb5a27cce1373722c72c749";
 private static final String FAST_AUTH_USERNAME = "fastauth";
 
-SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper);
+ SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper);
  AuthenticationResponse response1 = client.authenticate(AUTHENTICATION_API_ACCESS_TOKEN, username, "12345");
  System.out.println("STATIC PASSWORD AUTHENTICATION RESPONSE : " + response1);
  //
