@@ -11,6 +11,8 @@ String host = "https://192.168.1.160";
 long  port = 8443;
 private static final String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
 private static final String ADMIN_API_ACCESS_TOKEN = "1237d30e0f29e6e59bb5a27cce1373722c72c749";
+private static final String INTERNAL_USERNAME = "internal";
+private static final String LDAP_USERNAME = "sw999408";
 private static final String FAST_AUTH_USERNAME = "fastauth";
 
  SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper);
@@ -36,7 +38,9 @@ private static final String FAST_AUTH_USERNAME = "fastauth";
 * port : The server port
 * AUTHENTICATION_API_ACCESS_TOKEN : The access token of the system user created to access the authentication-api
 * ADMIN_API_ACCESS_TOKEN : The access token of the system user created to access the admin-api 
-* FAST_AUTH_USER : The user registered in safewalk with a Fast:Auth:Sign license. 
+* INTERNAL_USERNAME : Internal user created in safewalk and no licenses asigned
+* LDAP_USERNAME :  LDAP user with no licenses asigned.
+* FAST_AUTH_USER : The user registered in safewalk with a Fast:Auth:Sign license
 
 ### Authentication Response Examples (AuthenticationResponse class)
 
