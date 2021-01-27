@@ -39,8 +39,8 @@ public class SafewalkClientImpl implements SafewalkClient
     
     public SafewalkClientImpl(ServerConnectivityHelper serverConnetivityHelper, String adminAccessToken, String authAccessToken) {
         this.serverConnetivityHelper = serverConnetivityHelper;
-        this.adminAccessToken = adminAccessToken;
-        this.authAccessToken = authAccessToken;
+        SafewalkClientImpl.adminAccessToken = adminAccessToken;
+        SafewalkClientImpl.authAccessToken = authAccessToken;
     }
   
     // ************************************

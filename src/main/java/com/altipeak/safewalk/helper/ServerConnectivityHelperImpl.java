@@ -75,7 +75,7 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
                       public void checkServerTrusted(X509Certificate[] chain, String authType) {}
                       public X509Certificate[] getAcceptedIssuers() { if(bypassSSL) return null; else return new X509Certificate[]{}; }
                     }
-                  }, null);
+                  }, new java.security.SecureRandom());
               HttpsURLConnection.setDefaultSSLSocketFactory(ctx.getSocketFactory());   
               
               /* the name on the certificate doesn't match the hostname */

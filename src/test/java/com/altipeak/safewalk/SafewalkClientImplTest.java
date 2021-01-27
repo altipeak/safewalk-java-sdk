@@ -12,7 +12,7 @@ public class SafewalkClientImplTest extends TestCase
 {
     private static final String  HOST = "https://192.168.77.106";
     private static final long    PORT = 8443;
-    private static final boolean BYPASS_SSL_CHECK = false;
+    private static final boolean BYPASS_SSL_CHECK = true;
     private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "1c52926ef844c6b549a9a1b90436f78d0d7f3a3a";
     private static final String  ADMIN_API_ACCESS_TOKEN = "59414d98a82ef3304abdd18e6580853b916e822f";
     private static final String  STATIC_PASSWORD_USERNAME = "internal";
@@ -60,7 +60,7 @@ public class SafewalkClientImplTest extends TestCase
         System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response12);
         //
         SignatureResponse response13 = client.sendPushSignature(FAST_AUTH_USERNAME,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8","This call includes the data", null, null);
-        System.out.println("PUSH SIGNATURE RESPONSE OPTION 2 : " + response13);
+        System.out.println("PUSH SIGNATURE RESPONSE OPTION 2: " + response13);
         //
         SignatureResponse response14 = client.sendPushSignature(FAST_AUTH_USERNAME,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8",null, null, "This call includes the body");
         System.out.println("PUSH SIGNATURE RESPONSE OPTION 3: " + response14);
