@@ -261,7 +261,7 @@ public interface SafewalkClient {
      * @return {@link SessionKeyResponse}
      * @throws ConnectivityException
      */
-    SessionKeyResponse getQr(String accessToken) throws ConnectivityException;
+    SessionKeyResponse getSessionKeyChallenge(String accessToken) throws ConnectivityException;
     
     /**
      * <p>
@@ -282,7 +282,7 @@ public interface SafewalkClient {
      * @return {@link SessionKeyResponse}
      * @throws ConnectivityException
      */
-    SessionKeyResponse verifyQrStatus(String accessToken, String username, String password) throws ConnectivityException;
+    SessionKeyResponse verifySessionKeyChallenge(String accessToken, String username, String password) throws ConnectivityException;
     
     /**
      * <p>
