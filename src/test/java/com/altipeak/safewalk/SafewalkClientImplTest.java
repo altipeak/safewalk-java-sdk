@@ -15,8 +15,7 @@ public class SafewalkClientImplTest extends TestCase
     private static final boolean BYPASS_SSL_CHECK = false;
     private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "1c52926ef844c6b549a9a1b90436f78d0d7f3a3a";
     private static final String  ADMIN_API_ACCESS_TOKEN = "59414d98a82ef3304abdd18e6580853b916e822f";
-    private static final String  INTERNAL_USERNAME = "internal";
-    private static final String  LDAP_USERNAME = "sw999408";
+    private static final String  STATIC_PASSWORD_USERNAME = "internal";
     private static final String  FAST_AUTH_USERNAME = "fastauth";
     
     
@@ -39,13 +38,10 @@ public class SafewalkClientImplTest extends TestCase
         return new TestSuite( SafewalkClientImplTest.class );
     }
 
-    public void testWithInternalUser() throws ConnectivityException {
-        testSafewalkClient(INTERNAL_USERNAME);
+    public void testAuthenticationMethods() throws ConnectivityException {
+        testSafewalkClient(STATIC_PASSWORD_USERNAME);
     }
-    
-    public void testWithLdapUser() throws ConnectivityException {
-        testSafewalkClient(LDAP_USERNAME);
-    }
+  
     
     private void testSafewalkClient(String username) throws ConnectivityException {
         System.out.println("\nBEGIN TEST");
@@ -72,7 +68,7 @@ public class SafewalkClientImplTest extends TestCase
         AuthenticationResponse response15 = client.authenticate(FAST_AUTH_USERNAME, "abcde");
         System.out.println("PUSH AUTHENTICATION RESPONSE : " + response15);
         //
-        AuthenticationResponse response16 = client.authenticatePasswordExternal(username);
+        AuthenticationResponse response16 = client.authenticateExternal(username);
         System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response16);
         
     }

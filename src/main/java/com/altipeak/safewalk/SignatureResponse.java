@@ -17,6 +17,8 @@ public class SignatureResponse {
     
     private String signResult = "";
     
+    private String rejectReason = "";
+    
     // ************************************
     // * Constructors
     // ************************************
@@ -26,9 +28,10 @@ public class SignatureResponse {
         this.errors = Collections.emptyMap();
     }
     
-    public SignatureResponse(int httpCode, String signResult){
+    public SignatureResponse(int httpCode, String signResult, String rejectReason){
         this.httpCode = httpCode;
         this.signResult = signResult;
+        this.rejectReason = rejectReason;
         this.errors = Collections.emptyMap();
     }
     
@@ -46,6 +49,8 @@ public class SignatureResponse {
         StringBuilder sb = new StringBuilder();
         sb.append(String.valueOf(this.httpCode)).append(SEPARATOR);
         if ( this.signResult != null ) sb.append(this.signResult).append(SEPARATOR);     
+        if ( this.rejectReason != null ) sb.append(this.rejectReason).append(SEPARATOR);     
+        
         for (Entry<String, List<String>> errors : this.errors.entrySet()) {
             sb.append(errors.getKey()).append(" [");
             for (String error : errors.getValue()) {

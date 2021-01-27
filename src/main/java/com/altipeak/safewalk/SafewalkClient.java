@@ -153,5 +153,5 @@ public interface SafewalkClient {
      * @return {@link AuthenticationResponse}
      * @throws ConnectivityException
      */
-    AuthenticationResponse authenticatePasswordExternal(final String username) throws ConnectivityException;
+    AuthenticationResponse authenticateExternal(final String username) throws ConnectivityException;
 }
