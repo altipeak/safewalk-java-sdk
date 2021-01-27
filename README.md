@@ -12,34 +12,43 @@ long  port = 8443;
 private static final String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
 private static final String ADMIN_API_ACCESS_TOKEN = "1237d30e0f29e6e59bb5a27cce1373722c72c749";
 private static final String INTERNAL_USERNAME = "internal";
-private static final String LDAP_USERNAME = "sw999408";
-private static final String FAST_AUTH_USERNAME = "fastauth";
+private static final boolean BYPASS_SSL_CHECK = false;
+private static final String  STATIC_PASSWORD_USERNAME = "internal";
+private static final String  FAST_AUTH_USERNAME = "fastauth";
 
- SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper);
- AuthenticationResponse response1 = client.authenticate(AUTHENTICATION_API_ACCESS_TOKEN, username, "12345");
- System.out.println("STATIC PASSWORD AUTHENTICATION RESPONSE : " + response1);
- //
- SessionKeyResponse response10 = client.getSessionKeyChallenge(ADMIN_API_ACCESS_TOKEN);
- System.out.println("GET SESSION KEY RESPONSE : " + response10);
- //
- SessionKeyResponse response11 = client.verifySessionKeyChallenge(ADMIN_API_ACCESS_TOKEN, FAST_AUTH_USERNAME, response10.getChallenge());
- System.out.println("VERIFY SESSION KEY RESPONSE : " + response11);
- // 
- SignatureResponse response12 = client.sendPushSignature(ADMIN_API_ACCESS_TOKEN, FAST_AUTH_USERNAME,"abcde");
- System.out.println("PUSH SIGNATURE RESPONSE : " + response12);
- //
- AuthenticationResponse response13 = client.authenticate(AUTHENTICATION_API_ACCESS_TOKEN, FAST_AUTH_USERNAME, "abcde");
- System.out.println("PUSH AUTHENTICATION RESPONSE : " + response13);
- //
- AuthenticationResponse response14 = client.authenticatePasswordExternal(AUTHENTICATION_API_ACCESS_TOKEN, username, "abcde");
- System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response14);
+        System.out.println("\nBEGIN TEST");
+        SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, ADMIN_API_ACCESS_TOKEN, AUTHENTICATION_API_ACCESS_TOKEN);
+        //
+        AuthenticationResponse response1 = client.authenticate(username, "12345");
+        System.out.println("STATIC PASSWORD AUTHENTICATION RESPONSE : " + response1);
+        //
+        SessionKeyResponse response10 = client.createSessionKeyChallenge();
+        System.out.println("GET SESSION KEY RESPONSE : " + response10);
+        //
+        SessionKeyResponse response11 = client.verifySessionKeyStatus(response10.getChallenge());
+        System.out.println("VERIFY SESSION KEY RESPONSE : " + response11);
+        //
+        SignatureResponse response12 = client.sendPushSignature(FAST_AUTH_USERNAME,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data           here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
+        System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response12);
+        //
+        SignatureResponse response13 = client.sendPushSignature(FAST_AUTH_USERNAME,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8","This call             includes the data", null, null);
+        System.out.println("PUSH SIGNATURE RESPONSE OPTION 2 : " + response13);
+        //
+        SignatureResponse response14 = client.sendPushSignature(FAST_AUTH_USERNAME,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8",null, null,             "This call includes the body");
+        System.out.println("PUSH SIGNATURE RESPONSE OPTION 3: " + response14);
+        //
+        AuthenticationResponse response15 = client.authenticate(FAST_AUTH_USERNAME, "abcde");
+        System.out.println("PUSH AUTHENTICATION RESPONSE : " + response15);
+        //
+        AuthenticationResponse response16 = client.authenticateExternal(username);
+        System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response16);
+
 ```
 * host : The server host
 * port : The server port
 * AUTHENTICATION_API_ACCESS_TOKEN : The access token of the system user created to access the authentication-api
 * ADMIN_API_ACCESS_TOKEN : The access token of the system user created to access the admin-api 
-* INTERNAL_USERNAME : Internal user created in safewalk and no licenses asigned
-* LDAP_USERNAME :  LDAP user with no licenses asigned.
+* STATIC_PASSWORD_USERNAME : An LDAP or internal user with no licenses asigned and password authentication allowed. 
 * FAST_AUTH_USER : The user registered in safewalk with a Fast:Auth:Sign license
 
 ### Authentication Response Examples (AuthenticationResponse class)
