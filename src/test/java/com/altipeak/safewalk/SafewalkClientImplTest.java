@@ -39,15 +39,15 @@ public class SafewalkClientImplTest extends TestCase
     }
 
     public void testAuthenticationMethods() throws ConnectivityException {
-        testSafewalkClient(STATIC_PASSWORD_USERNAME);
+        testSafewalkClient();
     }
   
     
-    private void testSafewalkClient(String username) throws ConnectivityException {
+    private void testSafewalkClient() throws ConnectivityException {
         System.out.println("\nBEGIN TEST");
         SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, ADMIN_API_ACCESS_TOKEN, AUTHENTICATION_API_ACCESS_TOKEN);
         //
-        AuthenticationResponse response1 = client.authenticate(username, "12345");
+        AuthenticationResponse response1 = client.authenticate(STATIC_PASSWORD_USERNAME, "12345");
         System.out.println("STATIC PASSWORD AUTHENTICATION RESPONSE : " + response1);
         //
         SessionKeyResponse response10 = client.createSessionKeyChallenge();
@@ -68,7 +68,7 @@ public class SafewalkClientImplTest extends TestCase
         AuthenticationResponse response15 = client.authenticate(FAST_AUTH_USERNAME, "abcde");
         System.out.println("PUSH AUTHENTICATION RESPONSE : " + response15);
         //
-        AuthenticationResponse response16 = client.authenticateExternal(username);
+        AuthenticationResponse response16 = client.authenticateExternal(STATIC_PASSWORD_USERNAME);
         System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response16);
         
     }

@@ -36,7 +36,7 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
     public ServerConnectivityHelperImpl(final String host, final long port, final boolean bypassSSLCheck) {
         this.host = host;
         this.port = port;
-        this.bypassSSL = bypassSSLCheck;
+        ServerConnectivityHelperImpl.bypassSSL = bypassSSLCheck;
     }
     
     // ************************************

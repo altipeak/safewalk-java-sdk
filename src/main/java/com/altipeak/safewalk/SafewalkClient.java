@@ -105,7 +105,7 @@ public interface SafewalkClient {
      * @param hash   
      * @param data  -  The data to sign. Data or body are required.
      * @param title -  The title displayed in the mobile device. Optional.
-     * @param body  -  The body of the push. Data or body are required.
+     * @param body  -  The body of the message. Data or body are required.
      * @return {@link SignatureResponse}
      * @throws ConnectivityException
      */
