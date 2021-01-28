@@ -19,7 +19,7 @@ private static final String  FAST_AUTH_USERNAME = "fastauth";
         System.out.println("\nBEGIN TEST");
         SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, ADMIN_API_ACCESS_TOKEN, AUTHENTICATION_API_ACCESS_TOKEN);
         //
-        AuthenticationResponse response1 = client.authenticate(username, "12345");
+        AuthenticationResponse response1 = client.authenticate(STATIC_PASSWORD_USERNAME, "12345");
         System.out.println("STATIC PASSWORD AUTHENTICATION RESPONSE : " + response1);
         //
         SessionKeyResponse response10 = client.createSessionKeyChallenge();
@@ -40,7 +40,7 @@ private static final String  FAST_AUTH_USERNAME = "fastauth";
         AuthenticationResponse response15 = client.authenticate(FAST_AUTH_USERNAME, "abcde");
         System.out.println("PUSH AUTHENTICATION RESPONSE : " + response15);
         //
-        AuthenticationResponse response16 = client.authenticateExternal(username);
+        AuthenticationResponse response16 = client.authenticateExternal(STATIC_PASSWORD_USERNAME);
         System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response16);
 
 ```
