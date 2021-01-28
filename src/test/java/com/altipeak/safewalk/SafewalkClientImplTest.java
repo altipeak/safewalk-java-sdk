@@ -10,7 +10,7 @@ import junit.framework.TestSuite;
 
 public class SafewalkClientImplTest extends TestCase
 {
-    private static final String  HOST = "https://192.168.77.106";
+    private static final String  HOST = "https://192.168.77.108";
     private static final long    PORT = 8443;
     private static final boolean BYPASS_SSL_CHECK = true;
     private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "1c52926ef844c6b549a9a1b90436f78d0d7f3a3a";
@@ -39,11 +39,11 @@ public class SafewalkClientImplTest extends TestCase
     }
 
     public void testAuthenticationMethods() throws ConnectivityException {
-        testSafewalkClient();
+        testSafewalkClient(STATIC_PASSWORD_USERNAME);
     }
   
     
-    private void testSafewalkClient() throws ConnectivityException {
+    private void testSafewalkClient(String username) throws ConnectivityException {
         System.out.println("\nBEGIN TEST");
         SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, ADMIN_API_ACCESS_TOKEN, AUTHENTICATION_API_ACCESS_TOKEN);
         //
