@@ -5,7 +5,7 @@
 <a name="authentication-api"></a>
 ## Authentication API
 
-This project has been created to show how to interact with the main Safewalk Authentication Methods available in the platform: 
+This project presents the Safewalk Authentication API usage. The available APIs are listed below: 
 
 * Static Password 
 * QR Code 
