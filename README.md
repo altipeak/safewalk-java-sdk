@@ -15,7 +15,7 @@ This project presents the Safewalk Authentication API usage. The available APIs 
 
 It contains an example client APP, and a .Jar/DLL inside, with the methods that perform the authentication against the plataform. 
 
-Note, Inside SafewalkClient interface there is the description of each method and the required/optional parameters to call them. 
+Note, Inside /src/main/java/com/altipeak/safewalk/SafewalkClient.java there is the description of each method and the required/optional parameters to call them. 
 
 ### Usage
 
