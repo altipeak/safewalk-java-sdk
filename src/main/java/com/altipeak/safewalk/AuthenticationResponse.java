@@ -1,9 +1,15 @@
 package com.altipeak.safewalk;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  * Authentication Response
@@ -16,6 +22,7 @@ public class AuthenticationResponse {
     private final String transactionId;
     private final String username;
     private final String replyMessage;
+    private final String allResponse;
     private final ReplyCode replyCode;
     
     private final int httpCode;
@@ -102,7 +109,8 @@ public class AuthenticationResponse {
                                 , String username
                                 , String replyMessage
                                 , ReplyCode replyCode
-                                , String detail) {
+                                , String detail
+                                , String jsonResponse) {
         this.code = code;
         this.transactionId = transactionId;
         this.username = username;
@@ -110,6 +118,7 @@ public class AuthenticationResponse {
         this.replyCode = replyCode;
         this.httpCode = httpCode;
         this.detail = detail;
+        this.allResponse = jsonResponse;
         this.errors = Collections.emptyMap();
     }
     
@@ -121,6 +130,7 @@ public class AuthenticationResponse {
         this.replyCode = null;
         this.httpCode = httpCode;
         this.detail = null;
+        this.allResponse = null;
         this.errors = errors;
     }
     
@@ -138,7 +148,7 @@ public class AuthenticationResponse {
         if ( this.replyMessage != null ) sb.append(this.replyMessage).append(SEPARATOR);
         if ( this.replyCode != null ) sb.append(this.replyCode).append(SEPARATOR);
         if ( this.detail != null ) sb.append(this.detail).append(SEPARATOR);
-        
+             
         for (Entry<String, List<String>> errors : this.errors.entrySet()) {
             sb.append(errors.getKey()).append(" [");
             for (String error : errors.getValue()) {
@@ -231,5 +241,26 @@ public class AuthenticationResponse {
         return replyCode;
     }
     
+    /**
+     * @since v1.5
+     * @return the complete response dictionary
+     * different that what it is in {@link AuthenticationResponse#getAttributes()}
+     */
+    public Map<String, String> getAtributtes() {
+        Map<String, String> atributes = null;
+		try {
+			JSONParser parser = new JSONParser();
+			JSONObject json = (JSONObject) parser.parse(allResponse);
+			atributes = new HashMap<String, String>();
+			Set<Map.Entry<String, String>> entries = json.entrySet();
+			for (Map.Entry<String, String> entry : entries) {
+			    atributes.put(entry.getKey(), entry.getValue());
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return atributes;
+    }
     
 }

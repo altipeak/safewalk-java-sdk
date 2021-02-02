@@ -66,7 +66,6 @@ public class SafewalkClientImpl implements SafewalkClient
         if ( response.getResponseCode() == 200 || response.getResponseCode() == 401 ) {
             
             JSONObject jsonResponse = new JSONObject(response.getContent());
-            
             return new AuthenticationResponse(
                      response.getResponseCode()
                    , this.getAuthenticationCode(jsonResponse, JSON_AUTH_CODE_FIELD)
@@ -75,7 +74,7 @@ public class SafewalkClientImpl implements SafewalkClient
                    , this.getString(jsonResponse, JSON_AUTH_REPLY_MESSAGE_FIELD)
                    , this.getReplyCode(jsonResponse, JSON_AUTH_REPLY_CODE_FIELD)
                    , this.getString(jsonResponse, JSON_AUTH_DETAIL_FIELD)
-            );
+                   , response.getContent());
         }else{
             return new AuthenticationResponse(response.getResponseCode(), getErrors(response.getContent()));
         }
@@ -158,6 +157,7 @@ public class SafewalkClientImpl implements SafewalkClient
                , this.getString(jsonResponse, JSON_AUTH_REPLY_MESSAGE_FIELD)
                , this.getReplyCode(jsonResponse, JSON_AUTH_REPLY_CODE_FIELD)
                , this.getString(jsonResponse, JSON_AUTH_DETAIL_FIELD)
+               , response.getContent()
         );
     }else{
         return new AuthenticationResponse(response.getResponseCode(), getErrors(response.getContent()));

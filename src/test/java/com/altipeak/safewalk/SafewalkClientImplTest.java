@@ -47,7 +47,7 @@ public class SafewalkClientImplTest extends TestCase
         SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, null, AUTHENTICATION_API_ACCESS_TOKEN);
         //
         AuthenticationResponse response1 = client.authenticate(staticPasswordUserName, "12345");
-        System.out.println("STATIC PASSWORD AUTHENTICATION RESPONSE : " + response1);
+        System.out.println("USER CREDENTIALS AUTHENTICATION RESPONSE : " + response1 + " METHOD " + response1.getAtributtes().get("auth-method"));
         //
         SessionKeyResponse response10 = client.createSessionKeyChallenge();
         System.out.println("GET SESSION KEY RESPONSE : " + response10);
@@ -68,7 +68,7 @@ public class SafewalkClientImplTest extends TestCase
         System.out.println("PUSH AUTHENTICATION RESPONSE : " + response15);
         //
         AuthenticationResponse response16 = client.authenticateExternal(staticPasswordUserName);
-        System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response16);
+        System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response16 );
         
     }
    
