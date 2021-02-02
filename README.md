@@ -37,7 +37,7 @@ private static final String  FAST_AUTH_USERNAME = "fastauth";
 * STATIC_PASSWORD_USERNAME : An LDAP or internal user with no licenses asigned and password authentication allowed. 
 * FAST_AUTH_USER : The user registered in safewalk with a Fast:Auth:Sign license.
 
-## Authentication API Access Token
+### Authentication API Access Token
  
 Before you can start using the Safewalk OAuth2 Restful API you will need to generate an authentication access-token (key) that will allow access to the different API.
 Follow the instructions below to create a system user with keys to access the API:
