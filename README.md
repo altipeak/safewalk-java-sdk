@@ -23,19 +23,17 @@ Note, Inside SafewalkClient interface there is the description of each method an
 String host = "https://192.168.1.160";
 long  port = 8445;
 private static final String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
-private static final String  STATIC_PASSWORD_USERNAME = "internal";
-private static final String  FAST_AUTH_USERNAME = "fastauth";
 
         System.out.println("\nBEGIN TEST");
         SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, ADMIN_API_ACCESS_TOKEN, AUTHENTICATION_API_ACCESS_TOKEN);
         //
-        AuthenticationResponse response1 = client.authenticate(STATIC_PASSWORD_USERNAME, "12345");
+        AuthenticationResponse response1 = client.authenticate(staticPasswordUserName, "12345");
         System.out.println("STATIC PASSWORD AUTHENTICATION RESPONSE : " + response1);
 ```
 * host : The server host.
 * port : The server port.
-* STATIC_PASSWORD_USERNAME : An LDAP or internal user with no licenses asigned and password authentication allowed. 
-* FAST_AUTH_USER : The user registered in safewalk with a Fast:Auth:Sign license.
+* staticPasswordUserName : An LDAP or internal user with no licenses asigned and password authentication allowed. 
+* fastAuthUserName : The user registered in safewalk with a Fast:Auth:Sign license.
 
 ### Authentication API Access Token
  
