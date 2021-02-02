@@ -113,7 +113,7 @@ public interface SafewalkClient {
     
     /**
      * <p>
-     *   Standard authentication for external users.
+     *  Notify Safewalk that user password was already validated by an external system. Safewalk will proceed according to the authentication policies defined for the specified user.
      * </p>
      * <p>
      * The username will determine if the user is an internal user or an LDAP user. 
