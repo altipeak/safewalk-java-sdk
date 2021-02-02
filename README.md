@@ -22,8 +22,10 @@ Note, Inside SafewalkClient interface there is the description of each method an
 ```java
 String host = "https://192.168.1.160";
 long  port = 8445;
-private static final String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
-
+static final String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
+String staticPasswordUserName = "internal";
+String fastAuthUserName = "fastauth";
+    
         System.out.println("\nBEGIN TEST");
         SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, ADMIN_API_ACCESS_TOKEN, AUTHENTICATION_API_ACCESS_TOKEN);
         //
