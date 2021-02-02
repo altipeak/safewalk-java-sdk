@@ -28,12 +28,5 @@
 			<version>20140107</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.altipeak</groupId>
-			<artifactId>safewalk-api</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/safewalk-api.jar</systemPath>
-		</dependency>
 	</dependencies>
 </project>

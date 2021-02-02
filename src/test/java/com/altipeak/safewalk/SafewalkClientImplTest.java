@@ -10,13 +10,12 @@ import junit.framework.TestSuite;
 
 public class SafewalkClientImplTest extends TestCase
 {
-    private static final String  HOST = "https://192.168.77.108";
-    private static final long    PORT = 8443;
+    private static final String  HOST = "https://192.168.0.39";
+    private static final long    PORT = 8445;
     private static final boolean BYPASS_SSL_CHECK = true;
-    private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "1c52926ef844c6b549a9a1b90436f78d0d7f3a3a";
-    private static final String  ADMIN_API_ACCESS_TOKEN = "59414d98a82ef3304abdd18e6580853b916e822f";
-    private static final String  STATIC_PASSWORD_USERNAME = "internal";
-    private static final String  FAST_AUTH_USERNAME = "fastauth";
+    private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "6ea8b958e7afc1022c22ebd8b9776797fe3f3cdb";
+    private String staticPasswordUserName = "internal";
+    private String fastAuthUserName = "internal2";
     
     
     private ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(HOST, PORT, BYPASS_SSL_CHECK);
@@ -39,15 +38,15 @@ public class SafewalkClientImplTest extends TestCase
     }
 
     public void testAuthenticationMethods() throws ConnectivityException {
-        testSafewalkClient(STATIC_PASSWORD_USERNAME);
+        testSafewalkClient(staticPasswordUserName, fastAuthUserName);
     }
   
     
-    private void testSafewalkClient(String username) throws ConnectivityException {
+    private void testSafewalkClient(String staticPasswordUserName, String fastAuthUserName) throws ConnectivityException {
         System.out.println("\nBEGIN TEST");
-        SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, ADMIN_API_ACCESS_TOKEN, AUTHENTICATION_API_ACCESS_TOKEN);
+        SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, null, AUTHENTICATION_API_ACCESS_TOKEN);
         //
-        AuthenticationResponse response1 = client.authenticate(STATIC_PASSWORD_USERNAME, "12345");
+        AuthenticationResponse response1 = client.authenticate(staticPasswordUserName, "12345");
         System.out.println("STATIC PASSWORD AUTHENTICATION RESPONSE : " + response1);
         //
         SessionKeyResponse response10 = client.createSessionKeyChallenge();
@@ -56,19 +55,19 @@ public class SafewalkClientImplTest extends TestCase
         SessionKeyResponse response11 = client.verifySessionKeyStatus(response10.getChallenge());
         System.out.println("VERIFY SESSION KEY RESPONSE : " + response11);
         //
-        SignatureResponse response12 = client.sendPushSignature(FAST_AUTH_USERNAME,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
+        SignatureResponse response12 = client.sendPushSignature(fastAuthUserName,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
         System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response12);
         //
-        SignatureResponse response13 = client.sendPushSignature(FAST_AUTH_USERNAME,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8","This call includes the data", null, null);
+        SignatureResponse response13 = client.sendPushSignature(fastAuthUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8","This call includes the data", null, null);
         System.out.println("PUSH SIGNATURE RESPONSE OPTION 2: " + response13);
         //
-        SignatureResponse response14 = client.sendPushSignature(FAST_AUTH_USERNAME,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8",null, null, "This call includes the body");
+        SignatureResponse response14 = client.sendPushSignature(fastAuthUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8",null, null, "This call includes the body");
         System.out.println("PUSH SIGNATURE RESPONSE OPTION 3: " + response14);
         //
-        AuthenticationResponse response15 = client.authenticate(FAST_AUTH_USERNAME, "abcde");
+        AuthenticationResponse response15 = client.authenticate(fastAuthUserName, "abcde");
         System.out.println("PUSH AUTHENTICATION RESPONSE : " + response15);
         //
-        AuthenticationResponse response16 = client.authenticateExternal(STATIC_PASSWORD_USERNAME);
+        AuthenticationResponse response16 = client.authenticateExternal(staticPasswordUserName);
         System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response16);
         
     }
