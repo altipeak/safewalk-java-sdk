@@ -52,7 +52,7 @@ public interface SafewalkClient {
     
     /**
      * <p>
-     * Get's the sessionKey string to sign with QR. 
+     * Creates the sessionKey string to sign with QR. 
      * </p>
      * <p>
      * The username will determine if the user is an internal user or an LDAP user. 
