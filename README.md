@@ -36,8 +36,8 @@ String mobileUsername = "mobileuser@mycompany.com";
 ```
 * host : The server host.
 * port : The server port.
-* username : An LDAP or internal user with no licenses registered and password authentication allowed. 
-* mobileUsername : An LDAP or internal user registered with a Fast:Auth:Sign license.
+* username : A user with no licenses registered and password authentication allowed. 
+* mobileUsername : A user registered with a Fast:Auth:Sign license.
 
 ### Authentication API Access Token
  
