@@ -66,4 +66,4 @@ System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response2);
 
 ### Documentation
 
-For further understanding of this API, please check the documents inside the /doc folder of this project.
+For further understanding of the API, please check the documents inside /doc folder of this project.
