@@ -20,13 +20,13 @@ Note, Inside /src/main/java/com/altipeak/safewalk/SafewalkClient.java there is t
 ### Usage
 
 ```java
+String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
+boolean BYPASS_SSL_CHECK = false;
 String host = "https://safewalk_address...";
 long  port = 8445;
-String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
+ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(HOST, PORT, BYPASS_SSL_CHECK);
 String username = "user@mycompany.com";
 String mobileUsername = "mobileuser@mycompany.com";
-boolean BYPASS_SSL_CHECK = false;
-ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(HOST, PORT, BYPASS_SSL_CHECK);
     
     SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, null, AUTHENTICATION_API_ACCESS_TOKEN);
    
