@@ -25,17 +25,23 @@ long  port = 8445;
 String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
 String username = "user@mycompany.com";
 String mobileUsername = "mobileuser@mycompany.com";
+boolean BYPASS_SSL_CHECK = false;
+ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(HOST, PORT, BYPASS_SSL_CHECK);
     
     SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, null, AUTHENTICATION_API_ACCESS_TOKEN);
+   
     // Example 1: User credentials
     AuthenticationResponse response1 = client.authenticate(username, "12345");
     System.out.println("USER CREDENTIALS AUTHENTICATION RESPONSE : " + response1);
+    
     // Example 2: Push Signature
     SignatureResponse response2 = client.sendPushSignature(mobileUsername,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
     System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response2);
 ```
 * host : The server host.
 * port : The server port.
+* BYPASS_SSL_CHECK: to allow or deny insecure connections.
+* serverConnectivityHelper: A class to handle the connection with Safewalk server.
 * username : A user with no licenses registered and password authentication allowed. 
 * mobileUsername : A user registered with a Fast:Auth:Sign license.
 
