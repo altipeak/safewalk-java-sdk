@@ -61,3 +61,7 @@ System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response2);
 * port : The server port.
 * serverConnectivityHelper: A class to handle the connection with Safewalk server.
 * BYPASS_SSL_CHECK: to allow or deny insecure connections.
+
+### Documentation
+
+For further understanding of this API, please check the documents into the /doc folder of this project.
