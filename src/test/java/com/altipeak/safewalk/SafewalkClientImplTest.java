@@ -14,8 +14,8 @@ public class SafewalkClientImplTest extends TestCase
     private static final long    PORT = 8445;
     private static final boolean BYPASS_SSL_CHECK = true;
     private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "6ea8b958e7afc1022c22ebd8b9776797fe3f3cdb";
-    private String userName = "user@mycompany.com";
-    private String mobileUserName = "mobileuser@mycompany.com";
+    private String userName = "internal";
+    private String mobileUserName = "internal2";
     
     
     private ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(HOST, PORT, BYPASS_SSL_CHECK);
@@ -61,22 +61,22 @@ public class SafewalkClientImplTest extends TestCase
     
     /**
      * <p>
-     *  On this example first a sessionKey string is generated and then the status is verified. When the sessionKey is generated, it can be copied and used with a third party QR code generator like https://es.qr-code-generator.com/ to be scanned and signed.
+     *  On this example first a sessionKey string is generated and then it's status is verified. When the sessionKey is generated, it can be copied and used with a third party QR code generator like https://es.qr-code-generator.com/ to be scanned and signed.
      * </p>
      * 
      */
     private void testQRAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
-    	//
-    	SessionKeyResponse response10 = client.createSessionKeyChallenge();
+    	// Here the sessionKey string is created. After it is printed in the console, it can be copied and pasted to https://es.qr-code-generator.com/, then a QR code will be generated to be signed with Fast Auth App. 
+        SessionKeyResponse response10 = client.createSessionKeyChallenge();
         System.out.println("GET SESSION KEY RESPONSE : " + response10);
-        //
+        // After the QR is signed, the status will be ACCESS_ALLOWED. While the QR is not scanned, the status will be ACCESS_PENDING. 
         SessionKeyResponse response11 = client.verifySessionKeyStatus(response10.getChallenge());
         System.out.println("VERIFY SESSION KEY RESPONSE : " + response11);
     }
     
     /**
      * <p>
-     *    On this example the same API as in UserCredentialsAuthenticationMethod is called, but with a user with a Fast:Auth license registered.
+     *    On this example the same authenticate API as in UserCredentialsAuthenticationMethod is called, but with a user with a Fast:Auth license registered.
      * </p>
      */
     private void testPushAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
@@ -93,17 +93,17 @@ public class SafewalkClientImplTest extends TestCase
     	 // 
     	 SignatureResponse response12 = client.sendPushSignature(mobileUserName,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
          System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response12);
-         //
-         SignatureResponse response13 = client.sendPushSignature(mobileUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8","This call includes the data", null, null);
+         // On this example body parameter is empty 
+         SignatureResponse response13 = client.sendPushSignature(mobileUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8","This call includes the data", "Sign Document", null);
          System.out.println("PUSH SIGNATURE RESPONSE OPTION 2: " + response13);
-         //
+         // On this example data and title parameters are empty 
          SignatureResponse response14 = client.sendPushSignature(mobileUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8",null, null, "This call includes the body");
          System.out.println("PUSH SIGNATURE RESPONSE OPTION 3: " + response14);
     }
     
     /**
      * <p>
-     * On this example safewalk is called as a 2nd step authentication, identity was first validated with an external system.
+     * On this example, Safewalk is called as a 2nd step authentication, as identity was first validated with an external system.
      * </p>
      */
     private void testSecondStepAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
