@@ -46,9 +46,11 @@ String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161b
 boolean BYPASS_SSL_CHECK = false;
 String host = "https://safewalk_address...";
 long  port = 8445;
+
 ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(HOST, PORT, BYPASS_SSL_CHECK);
     
 SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, null, AUTHENTICATION_API_ACCESS_TOKEN);
+
 // Example 1: User credentials
 AuthenticationResponse response1 = client.authenticate("username1", "12345");
 System.out.println("USER CREDENTIALS AUTHENTICATION RESPONSE : " + response1);
