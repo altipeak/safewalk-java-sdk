@@ -69,7 +69,7 @@ public class SafewalkClientImplTest extends TestCase
     	// Here the sessionKey string is created. After it is printed in the console, it can be copied and pasted to https://es.qr-code-generator.com/, then a QR code will be generated to be signed with Fast Auth App. 
         SessionKeyResponse response10 = client.createSessionKeyChallenge();
         System.out.println("GET SESSION KEY RESPONSE : " + response10);
-        // After the QR is signed, the status will be ACCESS_ALLOWED. While the QR is not scanned, the status will be ACCESS_PENDING. 
+        // After the QR is signed, the status will be ACCESS_ALLOWED. While the QR is not signed status will be ACCESS_PENDING. 
         SessionKeyResponse response11 = client.verifySessionKeyStatus(response10.getChallenge());
         System.out.println("VERIFY SESSION KEY RESPONSE : " + response11);
     }
