@@ -54,8 +54,8 @@ public class SafewalkClientImplTest extends TestCase
      */
     
     private void testUserCredentialsAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
-        AuthenticationResponse response1 = client.authenticate(userName, "12345");
-        System.out.println("USER CREDENTIALS AUTHENTICATION RESPONSE : " + response1 + " METHOD " + response1.getAtributtes().get("auth-method"));
+        AuthenticationResponse response = client.authenticate(userName, "12345");
+        System.out.println("USER CREDENTIALS AUTHENTICATION RESPONSE : " + response + " METHOD " + response.getAtributtes().get("auth-method"));
 
     }
     
@@ -67,11 +67,11 @@ public class SafewalkClientImplTest extends TestCase
      */
     private void testQRAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
     	// Here the sessionKey string is created. After it is printed in the console, it can be copied and pasted to https://es.qr-code-generator.com/, then a QR code will be generated to be signed with Fast Auth App. 
-        SessionKeyResponse response10 = client.createSessionKeyChallenge();
-        System.out.println("GET SESSION KEY RESPONSE : " + response10);
+        SessionKeyResponse response1 = client.createSessionKeyChallenge();
+        System.out.println("GET SESSION KEY RESPONSE : " + response1);
         // After the QR is signed, the status will be ACCESS_ALLOWED. While the QR is not signed status will be ACCESS_PENDING. 
-        SessionKeyResponse response11 = client.verifySessionKeyStatus(response10.getChallenge());
-        System.out.println("VERIFY SESSION KEY RESPONSE : " + response11);
+        SessionKeyResponse response2 = client.verifySessionKeyStatus(response1.getChallenge());
+        System.out.println("VERIFY SESSION KEY RESPONSE : " + response2);
     }
     
     /**
@@ -80,8 +80,8 @@ public class SafewalkClientImplTest extends TestCase
      * </p>
      */
     private void testPushAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
-    	 AuthenticationResponse response15 = client.authenticate(mobileUserName, "abcde");
-         System.out.println("PUSH AUTHENTICATION RESPONSE : " + response15);
+    	 AuthenticationResponse response = client.authenticate(mobileUserName, "abcde");
+         System.out.println("PUSH AUTHENTICATION RESPONSE : " + response);
     }
     
     /**
@@ -91,14 +91,14 @@ public class SafewalkClientImplTest extends TestCase
      */
     private void testPushSignatureAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
     	 // 
-    	 SignatureResponse response12 = client.sendPushSignature(mobileUserName,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
-         System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response12);
+    	 SignatureResponse response1 = client.sendPushSignature(mobileUserName,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
+         System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response1);
          // On this example body parameter is empty 
-         SignatureResponse response13 = client.sendPushSignature(mobileUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8","This call includes the data", "Sign Document", null);
-         System.out.println("PUSH SIGNATURE RESPONSE OPTION 2: " + response13);
+         SignatureResponse response2 = client.sendPushSignature(mobileUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8","This call includes the data", "Sign Document", null);
+         System.out.println("PUSH SIGNATURE RESPONSE OPTION 2: " + response2);
          // On this example data and title parameters are empty 
-         SignatureResponse response14 = client.sendPushSignature(mobileUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8",null, null, "This call includes the body");
-         System.out.println("PUSH SIGNATURE RESPONSE OPTION 3: " + response14);
+         SignatureResponse response3 = client.sendPushSignature(mobileUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8",null, null, "This call includes the body");
+         System.out.println("PUSH SIGNATURE RESPONSE OPTION 3: " + response3);
     }
     
     /**
@@ -108,8 +108,8 @@ public class SafewalkClientImplTest extends TestCase
      */
     private void testSecondStepAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
     	//
-    	AuthenticationResponse response16 = client.secondStepAuthentication(userName);
-        System.out.println("2ND STEP AUTHENTICATION RESPONSE : " + response16 );
+    	AuthenticationResponse response = client.secondStepAuthentication(userName);
+        System.out.println("2ND STEP AUTHENTICATION RESPONSE : " + response );
     }
   
     
