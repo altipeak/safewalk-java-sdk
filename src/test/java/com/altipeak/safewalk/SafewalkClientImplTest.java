@@ -38,38 +38,80 @@ public class SafewalkClientImplTest extends TestCase
     }
 
     public void testAuthenticationMethods() throws ConnectivityException {
-        testSafewalkClient(userName, mobileUserName);
+    	 System.out.println("\nBEGIN TEST");
+         SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, null, AUTHENTICATION_API_ACCESS_TOKEN);
+         testUserCredentialsAuthenticationMethod(client);
+         testQRAuthenticationMethod(client);
+         testPushAuthenticationMethod(client);
+         testPushSignatureAuthenticationMethod(client);
+         testSecondStepAuthenticationMethod(client);
     }
-  
     
-    private void testSafewalkClient(String staticPasswordUserName, String fastAuthUserName) throws ConnectivityException {
-        System.out.println("\nBEGIN TEST");
-        SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, null, AUTHENTICATION_API_ACCESS_TOKEN);
-        //
-        AuthenticationResponse response1 = client.authenticate(staticPasswordUserName, "12345");
+    /**
+     * <p>
+     *  On this example a user without licenses is recommended to test one step / static password authentication.
+     * </p>
+     */
+    
+    private void testUserCredentialsAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
+        AuthenticationResponse response1 = client.authenticate(userName, "12345");
         System.out.println("USER CREDENTIALS AUTHENTICATION RESPONSE : " + response1 + " METHOD " + response1.getAtributtes().get("auth-method"));
-        //
-        SessionKeyResponse response10 = client.createSessionKeyChallenge();
+
+    }
+    
+    /**
+     * <p>
+     *  On this example first a sessionKey string is generated and then the status is verified. When the sessionKey is generated, it can be copied and used with a third party QR code generator like https://es.qr-code-generator.com/ to be scanned and signed.
+     * </p>
+     * 
+     */
+    private void testQRAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
+    	//
+    	SessionKeyResponse response10 = client.createSessionKeyChallenge();
         System.out.println("GET SESSION KEY RESPONSE : " + response10);
         //
         SessionKeyResponse response11 = client.verifySessionKeyStatus(response10.getChallenge());
         System.out.println("VERIFY SESSION KEY RESPONSE : " + response11);
-        //
-        SignatureResponse response12 = client.sendPushSignature(fastAuthUserName,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
-        System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response12);
-        //
-        SignatureResponse response13 = client.sendPushSignature(fastAuthUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8","This call includes the data", null, null);
-        System.out.println("PUSH SIGNATURE RESPONSE OPTION 2: " + response13);
-        //
-        SignatureResponse response14 = client.sendPushSignature(fastAuthUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8",null, null, "This call includes the body");
-        System.out.println("PUSH SIGNATURE RESPONSE OPTION 3: " + response14);
-        //
-        AuthenticationResponse response15 = client.authenticate(fastAuthUserName, "abcde");
-        System.out.println("PUSH AUTHENTICATION RESPONSE : " + response15);
-        //
-        AuthenticationResponse response16 = client.authenticateExternal(staticPasswordUserName);
-        System.out.println("EXTERNAL AUTHENTICATION RESPONSE : " + response16 );
-        
     }
-   
+    
+    /**
+     * <p>
+     *    On this example the same API as in UserCredentialsAuthenticationMethod is called, but with a user with a Fast:Auth license registered.
+     * </p>
+     */
+    private void testPushAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
+    	 AuthenticationResponse response15 = client.authenticate(mobileUserName, "abcde");
+         System.out.println("PUSH AUTHENTICATION RESPONSE : " + response15);
+    }
+    
+    /**
+     * <p>
+     *  On this example there are three calls to the push signature API with different parameter combinations.
+     * </p>
+     */
+    private void testPushSignatureAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
+    	 // 
+    	 SignatureResponse response12 = client.sendPushSignature(mobileUserName,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
+         System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response12);
+         //
+         SignatureResponse response13 = client.sendPushSignature(mobileUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8","This call includes the data", null, null);
+         System.out.println("PUSH SIGNATURE RESPONSE OPTION 2: " + response13);
+         //
+         SignatureResponse response14 = client.sendPushSignature(mobileUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8",null, null, "This call includes the body");
+         System.out.println("PUSH SIGNATURE RESPONSE OPTION 3: " + response14);
+    }
+    
+    /**
+     * <p>
+     * On this example safewalk is called as a 2nd step authentication, identity was first validated with an external system.
+     * </p>
+     */
+    private void testSecondStepAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
+    	//
+    	AuthenticationResponse response16 = client.secondStepAuthentication(userName);
+        System.out.println("2ND STEP AUTHENTICATION RESPONSE : " + response16 );
+    }
+  
+    
+    
 }

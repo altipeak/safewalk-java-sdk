@@ -137,7 +137,7 @@ public class SafewalkClientImpl implements SafewalkClient
     }
         
     @Override
-	public AuthenticationResponse authenticateExternal(final String username) throws ConnectivityException {
+	public AuthenticationResponse secondStepAuthentication(final String username) throws ConnectivityException {
 	Map<String, String> parameters = new HashMap<String, String>() { 
         private static final long serialVersionUID = 1L;
         {
