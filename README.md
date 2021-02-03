@@ -13,7 +13,7 @@ This project presents the Safewalk Authentication API usage. The available APIs 
 * Push Authentication 
 * External Password Authentication
 
-It contains an example client App, and a .Jar libray inside /lib folder, with the methods that perform the authentication against the plataform. 
+It contains an example client App, and a .jar libray inside /lib folder, with the methods that perform the authentication against the plataform. 
 
 Note, Inside /src/main/java/com/altipeak/safewalk/SafewalkClient.java there is the description of each method and the required/optional parameters to call them. 
 
