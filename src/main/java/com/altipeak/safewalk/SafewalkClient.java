@@ -23,7 +23,7 @@ public interface SafewalkClient {
      * 
      * @since v1.1.10
      * @param username
-     * @param password - Static password or OTP
+     * @param password - Static password / OTP / Backup code
      * @return {@link AuthenticationResponse}
      * @throws ConnectivityException
      */
@@ -43,7 +43,7 @@ public interface SafewalkClient {
      * 
      * @since v1.1.10
      * @param username
-     * @param password - Static password or OTP
+     * @param password - Static password / OTP / Backup code
      * @param transactionId - It can be used to link the authentication transaction with a previous authentication transaction.
      * @return {@link AuthenticationResponse}
      * @throws ConnectivityException
@@ -52,14 +52,7 @@ public interface SafewalkClient {
     
     /**
      * <p>
-     * Creates the sessionKey challenge string to sign with QR. 
-     * </p>
-     * <p>
-     * The username will determine if the user is an internal user or an LDAP user. 
-     * <ul>
-     *   <li>If the given username has the format of &lt;username&gt; the user will be created as an internal user (In the database). If it doesn't exist, it will look in the LDAP following the priority order.
-     *   <li>If the given username has the format of &lt;username&gt@&lt;domain&gt; the user will be created in the LDAP with the given domain.
-     * </ul>
+     * Generatos a sessionKey challenge on server. The key is common presented as a QR or a deeplink button to be read by the signer (Safewalk Fast Auth app)
      * </p>
      * 
      * @since v1.1.10
@@ -70,14 +63,7 @@ public interface SafewalkClient {
     
     /**
      * <p>
-     *  Verifies the status of QR sessionKey. 
-     * </p>
-     * <p>
-     * The username will determine if the user is an internal user or an LDAP user. 
-     * <ul>
-     *   <li>If the given username has the format of &lt;username&gt; the user will be created as an internal user (In the database). If it doesn't exist, it will look in the LDAP following the priority order.
-     *   <li>If the given username has the format of &lt;username&gt@&lt;domain&gt; the user will be created in the LDAP with the given domain.
-     * </ul>
+     *  Retrieves if the status of the provided sessionKey.
      * </p>
      * 
      * @since v1.1.10
@@ -89,20 +75,13 @@ public interface SafewalkClient {
     
     /**
      * <p>
-     *  Sends a Push signature to the mobile device.
-     * </p>
-     * <p>
-     * The username will determine if the user is an internal user or an LDAP user. 
-     * <ul>
-     *   <li>If the given username has the format of &lt;username&gt; the user will be created as an internal user (In the database). If it doesn't exist, it will look in the LDAP following the priority order.
-     *   <li>If the given username has the format of &lt;username&gt@&lt;domain&gt; the user will be created in the LDAP with the given domain.
-     * </ul>
+     *  Generates a signature challenge to be signed by the Safewalk Fast Auth and sends a Push/Notification to the user wiht the signature details to be signed/declined by the user.
      * </p>
      * 
      * @since v1.1.10
      * @param username
      * @param password
-     * @param hash   
+     * @param hash  -  Sha-256 of the data to be signed
      * @param data  -  The data to sign. Data or body are required.
      * @param title -  The title displayed in the mobile device. Optional.
      * @param body  -  The body of the message. Data or body are required.

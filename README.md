@@ -13,27 +13,31 @@ This project presents the Safewalk Authentication API usage. The available APIs 
 * Push Authentication 
 * External Password Authentication
 
-It contains an example client APP, and a .Jar/DLL inside, with the methods that perform the authentication against the plataform. 
+It contains an example client App, and a .jar libray inside /lib folder, with the methods that perform the authentication against the plataform. 
 
 Note, Inside /src/main/java/com/altipeak/safewalk/SafewalkClient.java there is the description of each method and the required/optional parameters to call them. 
 
 ### Usage
 
 ```java
-String host = "https://192.168.1.160";
+String host = "https://safewalk_address...";
 long  port = 8445;
-static final String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
-String staticPasswordUserName = "internal";
-String fastAuthUserName = "fastauth";
+String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
+String username = "user@mycompany.com";
+String mobileUsername = "mobileuser@mycompany.com";
     
-        SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, null, AUTHENTICATION_API_ACCESS_TOKEN);
-        AuthenticationResponse response1 = client.authenticate(staticPasswordUserName, "12345");
-        System.out.println("STATIC PASSWORD AUTHENTICATION RESPONSE : " + response1);
+    SafewalkClient client = new SafewalkClientImpl(this.serverConnectivityHelper, null, AUTHENTICATION_API_ACCESS_TOKEN);
+    // Example 1: User credentials
+    AuthenticationResponse response1 = client.authenticate(username, "12345");
+    System.out.println("USER CREDENTIALS AUTHENTICATION RESPONSE : " + response1);
+    // Example 2: Push Signature
+    SignatureResponse response2 = client.sendPushSignature(mobileUsername,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
+    System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response2);
 ```
 * host : The server host.
 * port : The server port.
-* staticPasswordUserName : An LDAP or internal user with no licenses asigned and password authentication allowed. 
-* fastAuthUserName : The user registered in safewalk with a Fast:Auth:Sign license.
+* username : An LDAP or internal user with no licenses registered and password authentication allowed. 
+* mobileUsername : An LDAP or internal user registered with a Fast:Auth:Sign license.
 
 ### Authentication API Access Token
  
