@@ -40,8 +40,8 @@ String mobileUsername = "mobileuser@mycompany.com";
 ```
 * host : The server host.
 * port : The server port.
-* BYPASS_SSL_CHECK: to allow or deny insecure connections.
 * serverConnectivityHelper: A class to handle the connection with Safewalk server.
+* BYPASS_SSL_CHECK: to allow or deny insecure connections.
 * username : A user with no licenses registered and password authentication allowed. 
 * mobileUsername : A user registered with a Fast:Auth:Sign license.
 
