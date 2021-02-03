@@ -14,8 +14,8 @@ public class SafewalkClientImplTest extends TestCase
     private static final long    PORT = 8445;
     private static final boolean BYPASS_SSL_CHECK = true;
     private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "6ea8b958e7afc1022c22ebd8b9776797fe3f3cdb";
-    private String staticPasswordUserName = "internal";
-    private String fastAuthUserName = "internal2";
+    private String userName = "user@mycompany.com";
+    private String mobileUserName = "mobileuser@mycompany.com";
     
     
     private ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(HOST, PORT, BYPASS_SSL_CHECK);
@@ -38,7 +38,7 @@ public class SafewalkClientImplTest extends TestCase
     }
 
     public void testAuthenticationMethods() throws ConnectivityException {
-        testSafewalkClient(staticPasswordUserName, fastAuthUserName);
+        testSafewalkClient(userName, mobileUserName);
     }
   
     
