@@ -44,11 +44,11 @@ You will see an output similar to the one bellow:
 Dependency library: 
 ```
 <dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20201115</version>
-			<scope>provided</scope>
-		</dependency>
+	<groupId>org.json</groupId>
+	<artifactId>json</artifactId>
+	<version>20201115</version>
+	<scope>provided</scope>
+</dependency>
 ```
 
 ```java
