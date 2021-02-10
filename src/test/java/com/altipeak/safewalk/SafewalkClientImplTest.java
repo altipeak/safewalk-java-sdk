@@ -10,10 +10,10 @@ import junit.framework.TestSuite;
 
 public class SafewalkClientImplTest extends TestCase
 {
-    private static final String  HOST = "https://192.168.0.39";
+    private static final String  HOST = "https://192.168.11.109";
     private static final long    PORT = 8445;
     private static final boolean BYPASS_SSL_CHECK = true;
-    private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "6ea8b958e7afc1022c22ebd8b9776797fe3f3cdb";
+    private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "290fd37eeb01676c379e5de74b3d4e287e04f606";
     private String userName = "internal";
     private String mobileUserName = "internal2";
     
@@ -91,13 +91,13 @@ public class SafewalkClientImplTest extends TestCase
      */
     private void testPushSignatureAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
     	 // 
-    	 SignatureResponse response12 = client.sendPushSignature(mobileUserName,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
+    	 SignatureResponse response12 = client.sendPushSignature(mobileUserName, "abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F", "All the data here will be signed. This request was generated from Safewalk API.", "Sign Transaction", "Push signature triggered from safewalk API");
          System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response12);
          // On this example body parameter is empty 
-         SignatureResponse response13 = client.sendPushSignature(mobileUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8","This call includes the data", "Sign Document", null);
+         SignatureResponse response13 = client.sendPushSignature(mobileUserName, "abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8", "This call includes the data", "Sign Document", null);
          System.out.println("PUSH SIGNATURE RESPONSE OPTION 2: " + response13);
          // On this example data and title parameters are empty 
-         SignatureResponse response14 = client.sendPushSignature(mobileUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8",null, null, "This call includes the body");
+         SignatureResponse response14 = client.sendPushSignature(mobileUserName, "abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8", null, null, "This call includes the body" );
          System.out.println("PUSH SIGNATURE RESPONSE OPTION 3: " + response14);
     }
     

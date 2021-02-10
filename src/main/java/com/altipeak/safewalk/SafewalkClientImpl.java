@@ -19,7 +19,6 @@ import com.altipeak.safewalk.helper.ServerConnectivityHelper.Response;
 
 public class SafewalkClientImpl implements SafewalkClient
 {
-	private static String adminAccessToken = "";
 	private static String authAccessToken = "";
 		
 	/* Authentication response */
@@ -38,7 +37,6 @@ public class SafewalkClientImpl implements SafewalkClient
     
     public SafewalkClientImpl(ServerConnectivityHelper serverConnetivityHelper, String adminAccessToken, String authAccessToken) {
         this.serverConnetivityHelper = serverConnetivityHelper;
-        SafewalkClientImpl.adminAccessToken = adminAccessToken;
         SafewalkClientImpl.authAccessToken = authAccessToken;
     }
   
