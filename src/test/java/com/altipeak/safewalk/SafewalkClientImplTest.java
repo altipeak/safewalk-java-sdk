@@ -10,17 +10,10 @@ import junit.framework.TestSuite;
 
 public class SafewalkClientImplTest extends TestCase
 {
-<<<<<<< HEAD
     private static final String  HOST = "https://192.168.1.171";
     private static final long    PORT = 8445;
     private static final boolean BYPASS_SSL_CHECK = true;
     private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "d19930e00e1eed07764c88de56df1b364924fa65";
-=======
-    private static final String  HOST = "https://192.168.11.109";
-    private static final long    PORT = 8445;
-    private static final boolean BYPASS_SSL_CHECK = true;
-    private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "290fd37eeb01676c379e5de74b3d4e287e04f606";
->>>>>>> c6376d94bc698c309617e565df87181f9d1c860a
     private String userName = "internal";
     private String mobileUserName = "internal2";
     
