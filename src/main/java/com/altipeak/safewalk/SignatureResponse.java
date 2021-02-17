@@ -7,9 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SignatureResponse {
 
@@ -90,14 +89,13 @@ public class SignatureResponse {
     public Map<String, String> getAtributtes() {
         Map<String, String> atributes = null;
 		try {
-			JSONParser parser = new JSONParser();
-			JSONObject json = (JSONObject) parser.parse(allResponse);
+			JSONObject json = new JSONObject(allResponse);
 			atributes = new HashMap<String, String>();
-			Set<Map.Entry<String, String>> entries = json.entrySet();
-			for (Map.Entry<String, String> entry : entries) {
-			    atributes.put(entry.getKey(), entry.getValue());
+			Set<String> keys = json.keySet();
+			for (String key : keys) {
+			    atributes.put(key, json.getString(key));
 			}
-		} catch (ParseException e) {
+		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

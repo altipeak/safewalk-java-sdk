@@ -91,8 +91,7 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
                           String.format("%s:%s%s?%s", host, port, path, this.urlEncode(parameters));
               URL serverAddress = new URL(url);
               connection = (HttpURLConnection)serverAddress.openConnection();
-              connection.setRequestProperty("Content-Type", 
-                      "application/x-www-form-urlencoded");
+              connection.setRequestProperty("Accept", "application/json");
               if (headers != null) {
                   for (Entry<String, String> entry : headers.entrySet()) {
                       connection.setRequestProperty(entry.getKey(), entry.getValue());
