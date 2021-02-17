@@ -80,7 +80,7 @@ public class SafewalkClientImplTest extends TestCase
      * </p>
      */
     private void testPushAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
-    	 AuthenticationResponse response = client.authenticate(mobileUserName, "abcde");
+    	 AuthenticationResponse response = client.authenticate(mobileUserName, "Safewalk1");
          System.out.println("PUSH AUTHENTICATION RESPONSE : " + response);
     }
     
