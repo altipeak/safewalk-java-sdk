@@ -95,9 +95,10 @@ public class SafewalkClientImpl implements SafewalkClient
         };
         Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + authAccessToken);
         Response response = serverConnetivityHelper.post("/api/v1/auth/push_signature/?format=json", parameters, headers);
+        System.out.println(response.getContent());
         if ( response.getResponseCode() == 200 ) {
         	JSONObject jsonResponse = new JSONObject(response.getContent());
-            return new SignatureResponse(response.getResponseCode(), this.getString(jsonResponse, JSON_SIGN_RESULT_FIELD), this.getString(jsonResponse, JSON_SIGN_REJECT_REASON_FIELD));
+            return new SignatureResponse(response.getResponseCode(), this.getString(jsonResponse, JSON_SIGN_RESULT_FIELD), this.getString(jsonResponse, JSON_SIGN_REJECT_REASON_FIELD), response.getContent());
         }else if ( response.getResponseCode() == 400 ){
             return new SignatureResponse(response.getResponseCode(), getErrors(response.getContent()));
         }else{
@@ -112,7 +113,7 @@ public class SafewalkClientImpl implements SafewalkClient
         Response response = serverConnetivityHelper.post("/api/v1/auth/session_key/?format=json", parameters, headers);
         if ( response.getResponseCode() == 200 ) {
         	JSONObject jsonResponse = new JSONObject(response.getContent());
-            return new SessionKeyResponse(response.getResponseCode(), this.getString(jsonResponse, JSON_AUTH_CHALLENGE_FIELD));
+            return new SessionKeyResponse(response.getResponseCode(), this.getString(jsonResponse, JSON_AUTH_CHALLENGE_FIELD), response.getContent());
         }else if ( response.getResponseCode() == 400 ){
             return new SessionKeyResponse(response.getResponseCode(), getErrors(response.getContent()));
         }else{
@@ -124,10 +125,12 @@ public class SafewalkClientImpl implements SafewalkClient
     public  SessionKeyResponse verifySessionKeyStatus(final String sessionKeyChallenge) throws ConnectivityException {
         Map<String, String> parameters = new HashMap<String, String>();
         Map<String, String> headers = Collections.singletonMap("Authorization", "Bearer " + authAccessToken);
-        Response response = serverConnetivityHelper.get(String.format("/api/v1/auth/session_key/%s/",sessionKeyChallenge), parameters, headers);
+        Response response = serverConnetivityHelper.get(String.format("/api/v1/auth/session_key/%s/?format=json",sessionKeyChallenge), parameters, headers);
+        System.out.println(response.getContent());
+        
         if ( response.getResponseCode() == 200 ) {
         	JSONObject jsonResponse = new JSONObject(response.getContent());
-        	return new SessionKeyResponse(response.getResponseCode(), this.getString(jsonResponse, JSON_AUTH_CODE_FIELD));
+        	return new SessionKeyResponse(response.getResponseCode(), this.getString(jsonResponse, JSON_AUTH_CODE_FIELD), response.getContent());
         }else if ( response.getResponseCode() == 400 ){
             return new SessionKeyResponse(response.getResponseCode(), getErrors(response.getContent()));
         }else{
