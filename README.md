@@ -41,6 +41,16 @@ You will see an output similar to the one bellow:
 
 ### Usage
 
+Dependency library: 
+```
+<dependency>
+	<groupId>org.json</groupId>
+	<artifactId>json</artifactId>
+	<version>20201115</version>
+	<scope>provided</scope>
+</dependency>
+```
+
 ```java
 String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
 boolean BYPASS_SSL_CHECK = false;
