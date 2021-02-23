@@ -28,15 +28,18 @@ Follow the instructions below to create a system user with keys to access the AP
 * Access the Safewalk Appliance using an ssh client (e.g putty)
 * Execute the following commands to create/update a system user with API keys: 
 
-source /home/safewalk/safewalk-server-venv/bin/activate
- django-admin.py create_system_user --username <username> --auth-api-accesstoken --settings=gaia_server.settings
 
+```sh
+ /home/safewalk/safewalk-server-venv/bin/django-admin.py create_system_user --username <username> --auth-api-accesstoken --settings=gaia_server.settings
+```
 You will see an output similar to the one bellow:
   authentication-api : 1be0fd6a24fc508f45a184a87f3fc466d0c2603c . Created
 *  Execute the following command if you want to list the existing API access tokens of a user:
  
- source /home/safewalk/safewalk-server-venv/bin/activate django-admin.py
-  create_system_user --username <username> --settings=gaia_server.settings
+```sh
+  /home/safewalk/safewalk-server-venv/bin/django-admin.py create_system_user --username <username> --settings=gaia_server.settings
+```
+
 * Copy the access-token that was generated for the authentication-api and save it so you’ll be able to use it to make the API calls
 
 ### Usage
