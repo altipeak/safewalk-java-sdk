@@ -13,12 +13,13 @@ public class SafewalkClientImplTest extends TestCase
     private static final String  HOST = "https://192.168.1.171";
     private static final long    PORT = 8445;
     private static final boolean BYPASS_SSL_CHECK = true;
+    private static final int     READ_WRITE_TIMEOUT = 30000;
     private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "d19930e00e1eed07764c88de56df1b364924fa65";
-    private String userName = "internal";
-    private String mobileUserName = "internal2";
+    private String userName = "staticpassworduser";
+    private String mobileUserName = "mobileuser";
     
     
-    private ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(HOST, PORT, BYPASS_SSL_CHECK);
+    private ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(HOST, PORT, BYPASS_SSL_CHECK, READ_WRITE_TIMEOUT);
     
     /**
      * Create the test case
@@ -80,7 +81,7 @@ public class SafewalkClientImplTest extends TestCase
      * </p>
      */
     private void testPushAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
-    	 AuthenticationResponse response = client.authenticate(mobileUserName, "Safewalk1");
+    	 AuthenticationResponse response = client.authenticate(mobileUserName, "12345");
          System.out.println("PUSH AUTHENTICATION RESPONSE : " + response);
     }
     
@@ -91,7 +92,7 @@ public class SafewalkClientImplTest extends TestCase
      */
     private void testPushSignatureAuthenticationMethod(SafewalkClient client) throws ConnectivityException {
     	 // On this example all parameters are sent
-    	 SignatureResponse response1 = client.sendPushSignature(mobileUserName,"abcde", "A160E4F805C51261541F0AD6BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
+    	 SignatureResponse response1 = client.sendPushSignature(mobileUserName,"abcde", "A160E4F805C51261541F0BC618AE10BEB3A30786A099CE67DBEFD4F7F929F","All the data here will be signed. This request was generated from Safewalk API.","Sign Transaction","Push signature triggered from safewalk API");
          System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response1);
          // On this example body parameter is empty 
          SignatureResponse response2 = client.sendPushSignature(mobileUserName,"abcde", "25A0DCC3DD1D78EF2D2FC5E6F606A0DB0ECD8B427A0417D8C94CC51139CF4FC8","This call includes the data", "Sign Document", null);

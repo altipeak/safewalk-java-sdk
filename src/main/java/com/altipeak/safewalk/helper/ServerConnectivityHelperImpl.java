@@ -26,16 +26,27 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
     
     private final String host;
     private final long port;
+    private int readWriteTimeout;
     private static boolean bypassSSL = false;
     
     public ServerConnectivityHelperImpl(final String host, final long port) {
         this.host = host;
         this.port = port;
+        this.readWriteTimeout = DEFAULT_TIMEOUT;
+        
     }
     
     public ServerConnectivityHelperImpl(final String host, final long port, final boolean bypassSSLCheck) {
         this.host = host;
         this.port = port;
+        ServerConnectivityHelperImpl.bypassSSL = bypassSSLCheck;
+        this.readWriteTimeout = DEFAULT_TIMEOUT;
+    }
+    
+    public ServerConnectivityHelperImpl(final String host, final long port, final boolean bypassSSLCheck, int readWriteTimeout) {
+        this.host = host;
+        this.port = port;
+        this.readWriteTimeout = readWriteTimeout;
         ServerConnectivityHelperImpl.bypassSSL = bypassSSLCheck;
     }
     
@@ -99,7 +110,7 @@ public class ServerConnectivityHelperImpl implements ServerConnectivityHelper {
               }
               connection.setRequestMethod(method);
               connection.setConnectTimeout(DEFAULT_TIMEOUT);
-              connection.setReadTimeout(DEFAULT_TIMEOUT);
+              connection.setReadTimeout(readWriteTimeout);
               if ( method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT") ) {
                   connection.setDoOutput(true);
                   connection.getOutputStream().write(this.urlEncode(parameters).getBytes());
