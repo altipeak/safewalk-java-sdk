@@ -13,13 +13,13 @@ public class SafewalkClientImplTest extends TestCase
     private static final String  HOST = "https://192.168.1.171";
     private static final long    PORT = 8445;
     private static final boolean BYPASS_SSL_CHECK = true;
-    private static final int     READ_WRITE_TIMEOUT = 30000;
+    private static final int     TIMEOUT = 30000;
     private static final String  AUTHENTICATION_API_ACCESS_TOKEN = "d19930e00e1eed07764c88de56df1b364924fa65";
-    private String userName = "staticpassworduser";
-    private String mobileUserName = "mobileuser";
+    private String userName =  "username";
+    private String mobileUserName = "mobileusername";
     
     
-    private ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(HOST, PORT, BYPASS_SSL_CHECK, READ_WRITE_TIMEOUT);
+    private ServerConnectivityHelper serverConnectivityHelper = new ServerConnectivityHelperImpl(HOST, PORT, BYPASS_SSL_CHECK, TIMEOUT);
     
     /**
      * Create the test case
