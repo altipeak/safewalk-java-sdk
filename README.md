@@ -57,6 +57,7 @@ Dependency library:
 ```java
 String AUTHENTICATION_API_ACCESS_TOKEN = "c4608fc697e844829bb5a27cce13737250161bd0";
 boolean BYPASS_SSL_CHECK = false;
+int     TIMEOUT = 30000;
 String host = "https://safewalk_address...";
 long  port = 8445;
 
@@ -76,6 +77,7 @@ System.out.println("PUSH SIGNATURE RESPONSE OPTION 1: " + response2);
 * port : The server port.
 * serverConnectivityHelper: A class to handle the connection with Safewalk server.
 * BYPASS_SSL_CHECK: to allow or deny insecure connections.
+* TIMEOUT: the time the system will wait for the user to confirm the authentication.
 
 ### Documentation
 
